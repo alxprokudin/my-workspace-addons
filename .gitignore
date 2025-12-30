@@ -1,18 +1,13 @@
-# Секретные ключи и конфигурация
-# НЕ коммитьте файлы с реальными ключами!
+# Clasp files
+.clasp.json
+creds.json
+.clasprc.json
 
-# Файлы с реальными ключами (если создадите отдельный файл)
-config.js
-secrets.js
-.env
-*.secret
+# Secrets and keys
+dialog.html
+# Keep dialog.html.example for reference
 
-# Временные файлы
-*.tmp
-*.temp
-*.log
-
-# OS файлы
+# OS files
 .DS_Store
 Thumbs.db
 *.swp
@@ -23,7 +18,9 @@ Thumbs.db
 .idea/
 *.sublime-*
 
-# Node modules (если будете использовать)
-node_modules/
-package-lock.json
+# Logs
+*.log
 
+# Temporary files
+*.tmp
+*.temp

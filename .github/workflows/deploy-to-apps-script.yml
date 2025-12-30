@@ -1,0 +1,45 @@
+name: Deploy to Google Apps Script
+
+on:
+  push:
+    branches:
+      - excel-export-addon
+    paths:
+      - 'appsScript.js'
+      - 'dialog.html'
+      - 'appsscript.json'
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install clasp
+        run: npm install -g @google/clasp
+
+      - name: Setup .clasp.json
+        run: |
+          echo '{"scriptId":"${{ secrets.CLASP_SCRIPT_ID }}","rootDir":"."}' > .clasp.json
+
+      - name: Authenticate with Google
+        run: |
+          mkdir -p ~/.config
+          echo "${{ secrets.CLASP_TOKEN }}" > ~/.clasprc.json
+
+      - name: Deploy to Apps Script
+        run: |
+          clasp push --force
+
+      - name: Deployment status
+        run: |
+          echo "✅ Code deployed to Google Apps Script successfully!"
+
