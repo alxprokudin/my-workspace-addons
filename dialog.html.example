@@ -1,0 +1,26 @@
+<!-- 
+  ПРИМЕР ФАЙЛА dialog.html
+  Скопируйте этот файл в dialog.html и замените плейсхолдеры на реальные значения
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- ... остальной код ... -->
+    <script>
+      // ⚠️ ВАЖНО: Замените эти значения на ваши реальные ключи
+      // Получите их в Google Cloud Console:
+      // 1. DEVELOPER_KEY - это Client ID из OAuth 2.0 Client ID
+      // 2. CLOUD_PROJECT_NUMBER - это Project Number из настроек проекта
+      
+      const DEVELOPER_KEY = "ВАШ_CLIENT_ID_ИЗ_GOOGLE_CLOUD_CONSOLE";
+      const CLOUD_PROJECT_NUMBER = "ВАШ_PROJECT_NUMBER_ИЗ_GOOGLE_CLOUD_CONSOLE";
+      
+      // ... остальной код ...
+    </script>
+  </head>
+  <body>
+    <!-- ... -->
+  </body>
+</html>
+
