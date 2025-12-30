@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Портфолио проектов и дополнений для Google Workspace">
-    <title>Мои проекты - Google Workspace Add-ons</title>
+    <title data-i18n="siteTitle">Мои проекты - Google Workspace Add-ons</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,10 +14,14 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <h1 class="logo">Мои проекты</h1>
+                <h1 class="logo" data-i18n="siteTitle">Мои проекты</h1>
                 <nav class="nav">
-                    <a href="#projects" class="nav-link">Проекты</a>
-                    <a href="privacy-policy.html" class="nav-link">Политика конфиденциальности</a>
+                    <a href="#projects" class="nav-link" data-i18n="navProjects">Проекты</a>
+                    <a href="privacy-policy.html" class="nav-link" data-i18n="navPrivacy">Политика конфиденциальности</a>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="ru" aria-label="Русский">RU</button>
+                        <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
+                    </div>
                 </nav>
             </div>
         </div>
@@ -27,8 +31,8 @@
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <h2 class="hero-title">Дополнения для Google Workspace</h2>
-                    <p class="hero-description">
+                    <h2 class="hero-title" data-i18n="heroTitle">Дополнения для Google Workspace</h2>
+                    <p class="hero-description" data-i18n="heroDescription">
                         Коллекция полезных дополнений для Google Sheets, Docs и других сервисов Google Workspace
                     </p>
                 </div>
@@ -37,7 +41,7 @@
 
         <section id="projects" class="projects">
             <div class="container">
-                <h2 class="section-title">Мои проекты</h2>
+                <h2 class="section-title" data-i18n="projectsTitle">Мои проекты</h2>
                 <div class="projects-grid">
                     <!-- Проект: Экспорт в Excel -->
                     <div class="project-card">
@@ -50,8 +54,8 @@
                                 <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
-                        <h3 class="project-title">Экспорт в Excel</h3>
-                        <p class="project-description">
+                        <h3 class="project-title" data-i18n="excelExportTitle">Экспорт в Excel</h3>
+                        <p class="project-description" data-i18n="excelExportDescription">
                             Экспортируйте активный лист Google Таблицы в формат Excel (.xlsx) и сохраняйте в выбранную папку Google Drive одним кликом.
                         </p>
                         <div class="project-features">
@@ -60,10 +64,10 @@
                             <span class="feature-tag">Google Drive</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://workspace.google.com/marketplace" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                            <a href="https://workspace.google.com/marketplace" class="btn btn-primary" target="_blank" rel="noopener noreferrer" data-i18n="installFromMarketplace">
                                 Установить из Marketplace
                             </a>
-                            <a href="privacy-policy.html" class="btn btn-secondary">
+                            <a href="privacy-policy.html" class="btn btn-secondary" data-i18n="privacyPolicy">
                                 Политика конфиденциальности
                             </a>
                         </div>
@@ -76,8 +80,8 @@
                                 <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
-                        <h3 class="project-title">Новый проект</h3>
-                        <p class="project-description">
+                        <h3 class="project-title" data-i18n="newProjectTitle">Новый проект</h3>
+                        <p class="project-description" data-i18n="newProjectDescription">
                             Скоро здесь появится новый проект...
                         </p>
                     </div>
@@ -87,8 +91,8 @@
 
         <section class="contact">
             <div class="container">
-                <h2 class="section-title">Связаться со мной</h2>
-                <p class="contact-description">
+                <h2 class="section-title" data-i18n="contactTitle">Связаться со мной</h2>
+                <p class="contact-description" data-i18n="contactDescription">
                     Есть вопросы или предложения? Свяжитесь со мной!
                 </p>
                 <div class="contact-info">
@@ -107,13 +111,15 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <p>&copy; 2024 Мои проекты. Все права защищены.</p>
+                <p data-i18n="footerCopyright">&copy; 2024 Мои проекты. Все права защищены.</p>
                 <div class="footer-links">
-                    <a href="privacy-policy.html">Политика конфиденциальности</a>
+                    <a href="privacy-policy.html" data-i18n="navPrivacy">Политика конфиденциальности</a>
                 </div>
             </div>
         </div>
     </footer>
+
+    <script src="translations.js"></script>
+    <script src="language.js"></script>
 </body>
 </html>
-

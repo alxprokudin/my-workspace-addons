@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Политика конфиденциальности дополнения Экспорт в Excel">
-    <title>Политика конфиденциальности - Экспорт в Excel</title>
+    <title data-i18n="privacyTitle">Политика конфиденциальности - Экспорт в Excel</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,11 +15,15 @@
         <div class="container">
             <div class="header-content">
                 <a href="index.html" class="logo-link">
-                    <h1 class="logo">Мои проекты</h1>
+                    <h1 class="logo" data-i18n="siteTitle">Мои проекты</h1>
                 </a>
                 <nav class="nav">
-                    <a href="index.html" class="nav-link">Главная</a>
-                    <a href="privacy-policy.html" class="nav-link active">Политика конфиденциальности</a>
+                    <a href="index.html" class="nav-link" data-i18n="navHome">Главная</a>
+                    <a href="privacy-policy.html" class="nav-link active" data-i18n="navPrivacy">Политика конфиденциальности</a>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="ru" aria-label="Русский">RU</button>
+                        <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
+                    </div>
                 </nav>
             </div>
         </div>
@@ -29,193 +33,193 @@
         <article class="privacy-policy">
             <div class="container">
                 <div class="privacy-content">
-                    <h1 class="privacy-title">Политика конфиденциальности дополнения "Экспорт в Excel"</h1>
+                    <h1 class="privacy-title" data-i18n="privacyTitle">Политика конфиденциальности дополнения "Экспорт в Excel"</h1>
                     
                     <div class="privacy-meta">
-                        <p><strong>Последнее обновление:</strong> <span id="last-updated">1 января 2024</span></p>
+                        <p><strong data-i18n="lastUpdated">Последнее обновление:</strong> <span id="last-updated" data-i18n="privacyLastUpdated">1 января 2024</span></p>
                     </div>
 
                     <section class="privacy-section">
-                        <h2>1. Введение</h2>
-                        <p>
+                        <h2 data-i18n="section1Title">1. Введение</h2>
+                        <p data-i18n="privacyIntro">
                             Дополнение "Экспорт в Excel" ("мы", "нас", "наше") уважает вашу конфиденциальность и обязуется защищать ваши личные данные. 
                             Эта политика конфиденциальности объясняет, как мы собираем, используем и защищаем информацию при использовании нашего дополнения для Google Sheets.
                         </p>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>2. Информация, которую мы собираем</h2>
+                        <h2 data-i18n="section2Title">2. Информация, которую мы собираем</h2>
                         
-                        <h3>2.1 Данные, которые мы НЕ собираем</h3>
-                        <p>Наше дополнение <strong>НЕ собирает, НЕ хранит и НЕ передает</strong> следующие данные:</p>
-                        <ul>
-                            <li>Содержимое ваших таблиц</li>
-                            <li>Личные данные пользователей</li>
-                            <li>Email-адреса</li>
-                            <li>Любые другие персональные данные</li>
+                        <h3 data-i18n="section2_1Title">2.1 Данные, которые мы НЕ собираем</h3>
+                        <p data-i18n="section2_1Text">Наше дополнение <strong>НЕ собирает, НЕ хранит и НЕ передает</strong> следующие данные:</p>
+                        <ul id="section2_1List">
+                            <li data-i18n-list="section2_1List" data-i18n-index="0">Содержимое ваших таблиц</li>
+                            <li data-i18n-list="section2_1List" data-i18n-index="1">Личные данные пользователей</li>
+                            <li data-i18n-list="section2_1List" data-i18n-index="2">Email-адреса</li>
+                            <li data-i18n-list="section2_1List" data-i18n-index="3">Любые другие персональные данные</li>
                         </ul>
 
-                        <h3>2.2 Данные, к которым мы получаем доступ</h3>
-                        <p>
+                        <h3 data-i18n="section2_2Title">2.2 Данные, к которым мы получаем доступ</h3>
+                        <p data-i18n="section2_2Text">
                             Для работы дополнения нам требуется доступ к следующим данным (которые обрабатываются локально в вашем браузере и Google Apps Script):
                         </p>
-                        <ul>
-                            <li><strong>Активный лист таблицы:</strong> Только для экспорта в формат Excel</li>
-                            <li><strong>Папки Google Drive:</strong> Только для сохранения экспортированного файла в выбранную вами папку</li>
-                            <li><strong>OAuth токен:</strong> Для авторизации доступа к Google Drive API</li>
+                        <ul id="section2_2List">
+                            <li data-i18n-list="section2_2List" data-i18n-index="0"><strong>Активный лист таблицы:</strong> Только для экспорта в формат Excel</li>
+                            <li data-i18n-list="section2_2List" data-i18n-index="1"><strong>Папки Google Drive:</strong> Только для сохранения экспортированного файла в выбранную вами папку</li>
+                            <li data-i18n-list="section2_2List" data-i18n-index="2"><strong>OAuth токен:</strong> Для авторизации доступа к Google Drive API</li>
                         </ul>
                         <p class="highlight">
-                            <strong>Важно:</strong> Все операции выполняются в вашем аккаунте Google, мы не имеем доступа к вашим данным.
+                            <strong data-i18n="section2_2Important">Важно: Все операции выполняются в вашем аккаунте Google, мы не имеем доступа к вашим данным.</strong>
                         </p>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>3. Как мы используем информацию</h2>
-                        <p>Мы используем доступ к данным исключительно для:</p>
-                        <ul>
-                            <li>Экспорта активного листа в формат Excel (.xlsx)</li>
-                            <li>Сохранения экспортированного файла в выбранную вами папку Google Drive</li>
-                            <li>Обеспечения работы интерфейса выбора папки</li>
+                        <h2 data-i18n="section3Title">3. Как мы используем информацию</h2>
+                        <p data-i18n="section3Text">Мы используем доступ к данным исключительно для:</p>
+                        <ul id="section3List">
+                            <li data-i18n-list="section3List" data-i18n-index="0">Экспорта активного листа в формат Excel (.xlsx)</li>
+                            <li data-i18n-list="section3List" data-i18n-index="1">Сохранения экспортированного файла в выбранную вами папку Google Drive</li>
+                            <li data-i18n-list="section3List" data-i18n-index="2">Обеспечения работы интерфейса выбора папки</li>
                         </ul>
-                        <p><strong>Мы НЕ используем ваши данные для:</strong></p>
-                        <ul>
-                            <li>Рекламы</li>
-                            <li>Анализа поведения</li>
-                            <li>Передачи третьим лицам</li>
-                            <li>Любых других целей, кроме указанных выше</li>
-                        </ul>
-                    </section>
-
-                    <section class="privacy-section">
-                        <h2>4. Хранение данных</h2>
-                        <ul>
-                            <li>Мы <strong>НЕ храним</strong> ваши данные на наших серверах</li>
-                            <li>Все операции выполняются через Google Apps Script в вашем аккаунте Google</li>
-                            <li>Экспортированные файлы сохраняются в вашем Google Drive, к которому у нас нет постоянного доступа</li>
+                        <p><strong data-i18n="section3NotUsed">Мы НЕ используем ваши данные для:</strong></p>
+                        <ul id="section3NotUsedList">
+                            <li data-i18n-list="section3NotUsedList" data-i18n-index="0">Рекламы</li>
+                            <li data-i18n-list="section3NotUsedList" data-i18n-index="1">Анализа поведения</li>
+                            <li data-i18n-list="section3NotUsedList" data-i18n-index="2">Передачи третьим лицам</li>
+                            <li data-i18n-list="section3NotUsedList" data-i18n-index="3">Любых других целей, кроме указанных выше</li>
                         </ul>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>5. Передача данных третьим лицам</h2>
-                        <p>
+                        <h2 data-i18n="section4Title">4. Хранение данных</h2>
+                        <ul id="section4List">
+                            <li data-i18n-list="section4List" data-i18n-index="0">Мы <strong>НЕ храним</strong> ваши данные на наших серверах</li>
+                            <li data-i18n-list="section4List" data-i18n-index="1">Все операции выполняются через Google Apps Script в вашем аккаунте Google</li>
+                            <li data-i18n-list="section4List" data-i18n-index="2">Экспортированные файлы сохраняются в вашем Google Drive, к которому у нас нет постоянного доступа</li>
+                        </ul>
+                    </section>
+
+                    <section class="privacy-section">
+                        <h2 data-i18n="section5Title">5. Передача данных третьим лицам</h2>
+                        <p data-i18n="section5Text">
                             Мы <strong>НЕ передаем</strong> ваши данные третьим лицам. Дополнение использует только официальные API Google:
                         </p>
-                        <ul>
-                            <li>Google Sheets API</li>
-                            <li>Google Drive API</li>
-                            <li>Google Picker API</li>
+                        <ul id="section5List">
+                            <li data-i18n-list="section5List" data-i18n-index="0">Google Sheets API</li>
+                            <li data-i18n-list="section5List" data-i18n-index="1">Google Drive API</li>
+                            <li data-i18n-list="section5List" data-i18n-index="2">Google Picker API</li>
                         </ul>
-                        <p>Все взаимодействие происходит напрямую между вашим браузером и сервисами Google.</p>
+                        <p data-i18n="section5Text2">Все взаимодействие происходит напрямую между вашим браузером и сервисами Google.</p>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>6. Безопасность</h2>
-                        <p>Мы принимаем разумные меры для защиты ваших данных:</p>
-                        <ul>
-                            <li>Используем официальные OAuth 2.0 протоколы Google</li>
-                            <li>Запрашиваем только минимально необходимые разрешения (scopes)</li>
-                            <li>Не храним данные на внешних серверах</li>
-                            <li>Используем безопасные соединения (HTTPS)</li>
-                        </ul>
-                    </section>
-
-                    <section class="privacy-section">
-                        <h2>7. Ваши права</h2>
-                        <p>Вы имеете право:</p>
-                        <ul>
-                            <li>Отозвать доступ к дополнению в любой момент через настройки Google аккаунта</li>
-                            <li>Удалить дополнение из ваших Google Sheets</li>
-                            <li>Запросить информацию о том, какие данные обрабатываются (хотя мы не храним данные)</li>
+                        <h2 data-i18n="section6Title">6. Безопасность</h2>
+                        <p data-i18n="section6Text">Мы принимаем разумные меры для защиты ваших данных:</p>
+                        <ul id="section6List">
+                            <li data-i18n-list="section6List" data-i18n-index="0">Используем официальные OAuth 2.0 протоколы Google</li>
+                            <li data-i18n-list="section6List" data-i18n-index="1">Запрашиваем только минимально необходимые разрешения (scopes)</li>
+                            <li data-i18n-list="section6List" data-i18n-index="2">Не храним данные на внешних серверах</li>
+                            <li data-i18n-list="section6List" data-i18n-index="3">Используем безопасные соединения (HTTPS)</li>
                         </ul>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>8. Разрешения (OAuth Scopes)</h2>
-                        <p>Дополнение запрашивает следующие разрешения:</p>
+                        <h2 data-i18n="section7Title">7. Ваши права</h2>
+                        <p data-i18n="section7Text">Вы имеете право:</p>
+                        <ul id="section7List">
+                            <li data-i18n-list="section7List" data-i18n-index="0">Отозвать доступ к дополнению в любой момент через настройки Google аккаунта</li>
+                            <li data-i18n-list="section7List" data-i18n-index="1">Удалить дополнение из ваших Google Sheets</li>
+                            <li data-i18n-list="section7List" data-i18n-index="2">Запросить информацию о том, какие данные обрабатываются (хотя мы не храним данные)</li>
+                        </ul>
+                    </section>
+
+                    <section class="privacy-section">
+                        <h2 data-i18n="section8Title">8. Разрешения (OAuth Scopes)</h2>
+                        <p data-i18n="section8Text">Дополнение запрашивает следующие разрешения:</p>
                         <ol>
                             <li>
                                 <strong><code>https://www.googleapis.com/auth/spreadsheets.currentonly</code></strong>
-                                <ul>
-                                    <li>Доступ только к текущей открытой таблице</li>
-                                    <li>Используется для экспорта активного листа</li>
+                                <ul id="section8_1List">
+                                    <li data-i18n-list="section8_1List" data-i18n-index="0">Доступ только к текущей открытой таблице</li>
+                                    <li data-i18n-list="section8_1List" data-i18n-index="1">Используется для экспорта активного листа</li>
                                 </ul>
                             </li>
                             <li>
                                 <strong><code>https://www.googleapis.com/auth/drive.file</code></strong>
-                                <ul>
-                                    <li>Доступ к файлам, созданным приложением</li>
-                                    <li>Используется для сохранения экспортированного файла</li>
+                                <ul id="section8_2List">
+                                    <li data-i18n-list="section8_2List" data-i18n-index="0">Доступ к файлам, созданным приложением</li>
+                                    <li data-i18n-list="section8_2List" data-i18n-index="1">Используется для сохранения экспортированного файла</li>
                                 </ul>
                             </li>
                             <li>
                                 <strong><code>https://www.googleapis.com/auth/script.external_request</code></strong>
-                                <ul>
-                                    <li>Выполнение внешних HTTP-запросов</li>
-                                    <li>Используется для экспорта через Google Sheets API</li>
+                                <ul id="section8_3List">
+                                    <li data-i18n-list="section8_3List" data-i18n-index="0">Выполнение внешних HTTP-запросов</li>
+                                    <li data-i18n-list="section8_3List" data-i18n-index="1">Используется для экспорта через Google Sheets API</li>
                                 </ul>
                             </li>
                         </ol>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>9. Изменения в политике конфиденциальности</h2>
-                        <p>
+                        <h2 data-i18n="section9Title">9. Изменения в политике конфиденциальности</h2>
+                        <p data-i18n="section9Text">
                             Мы можем обновлять эту политику конфиденциальности время от времени. О существенных изменениях мы уведомим вас через:
                         </p>
-                        <ul>
-                            <li>Обновление дополнения в Google Workspace Marketplace</li>
-                            <li>Уведомление в интерфейсе дополнения (если применимо)</li>
+                        <ul id="section9List">
+                            <li data-i18n-list="section9List" data-i18n-index="0">Обновление дополнения в Google Workspace Marketplace</li>
+                            <li data-i18n-list="section9List" data-i18n-index="1">Уведомление в интерфейсе дополнения (если применимо)</li>
                         </ul>
-                        <p>Рекомендуем периодически просматривать эту страницу для получения актуальной информации.</p>
+                        <p data-i18n="section9Text2">Рекомендуем периодически просматривать эту страницу для получения актуальной информации.</p>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>10. Контактная информация</h2>
-                        <p>
+                        <h2 data-i18n="section10Title">10. Контактная информация</h2>
+                        <p data-i18n="section10Text">
                             Если у вас есть вопросы о этой политике конфиденциальности или о том, как мы обрабатываем ваши данные, 
                             пожалуйста, свяжитесь с нами:
                         </p>
                         <div class="contact-info">
-                            <p><strong>Email:</strong> <a href="mailto:your-email@example.com">your-email@example.com</a></p>
-                            <p><strong>Веб-сайт:</strong> <a href="index.html">Главная страница</a></p>
+                            <p><strong data-i18n="section10Email">Email:</strong> <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+                            <p><strong data-i18n="section10Website">Веб-сайт:</strong> <a href="index.html" data-i18n="section10Homepage">Главная страница</a></p>
                         </div>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>11. Согласие</h2>
-                        <p>
+                        <h2 data-i18n="section11Title">11. Согласие</h2>
+                        <p data-i18n="section11Text">
                             Используя это дополнение, вы соглашаетесь с этой политикой конфиденциальности. 
                             Если вы не согласны с этой политикой, пожалуйста, не используйте дополнение.
                         </p>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>Дополнительная информация</h2>
+                        <h2 data-i18n="section12Title">Дополнительная информация</h2>
                         
-                        <h3>Для пользователей из ЕС (GDPR)</h3>
-                        <p>
+                        <h3 data-i18n="section12GDPRTitle">Для пользователей из ЕС (GDPR)</h3>
+                        <p data-i18n="section12GDPRText">
                             В соответствии с Общим регламентом по защите данных (GDPR), мы хотим подчеркнуть:
                         </p>
-                        <ul>
-                            <li>Мы не обрабатываем персональные данные в смысле GDPR</li>
-                            <li>Все операции выполняются локально в вашем аккаунте Google</li>
-                            <li>Мы не являемся контроллером данных - Google является контроллером данных для ваших Google Sheets</li>
+                        <ul id="section12GDPRList">
+                            <li data-i18n-list="section12GDPRList" data-i18n-index="0">Мы не обрабатываем персональные данные в смысле GDPR</li>
+                            <li data-i18n-list="section12GDPRList" data-i18n-index="1">Все операции выполняются локально в вашем аккаунте Google</li>
+                            <li data-i18n-list="section12GDPRList" data-i18n-index="2">Мы не являемся контроллером данных - Google является контроллером данных для ваших Google Sheets</li>
                         </ul>
 
-                        <h3>Для пользователей из Калифорнии (CCPA)</h3>
-                        <p>
+                        <h3 data-i18n="section12CCPATitle">Для пользователей из Калифорнии (CCPA)</h3>
+                        <p data-i18n="section12CCPAText">
                             В соответствии с Законом Калифорнии о конфиденциальности потребителей (CCPA):
                         </p>
-                        <ul>
-                            <li>Мы не продаем ваши данные</li>
-                            <li>Мы не собираем персональную информацию в коммерческих целях</li>
-                            <li>Все операции выполняются в рамках функциональности дополнения</li>
+                        <ul id="section12CCPAList">
+                            <li data-i18n-list="section12CCPAList" data-i18n-index="0">Мы не продаем ваши данные</li>
+                            <li data-i18n-list="section12CCPAList" data-i18n-index="1">Мы не собираем персональную информацию в коммерческих целях</li>
+                            <li data-i18n-list="section12CCPAList" data-i18n-index="2">Все операции выполняются в рамках функциональности дополнения</li>
                         </ul>
                     </section>
 
                     <div class="privacy-footer">
-                        <p><strong>Дата вступления в силу:</strong> 1 января 2024</p>
-                        <p><strong>Дата последнего обновления:</strong> <span id="last-updated-footer">1 января 2024</span></p>
+                        <p><strong data-i18n="privacyEffectiveDate">Дата вступления в силу:</strong> <span data-i18n="privacyEffectiveDateValue">1 января 2024</span></p>
+                        <p><strong data-i18n="privacyLastUpdatedDate">Дата последнего обновления:</strong> <span id="last-updated-footer" data-i18n="privacyLastUpdatedDateValue">1 января 2024</span></p>
                     </div>
                 </div>
             </div>
@@ -225,14 +229,17 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <p>&copy; 2024 Мои проекты. Все права защищены.</p>
+                <p data-i18n="footerCopyright">&copy; 2024 Мои проекты. Все права защищены.</p>
                 <div class="footer-links">
-                    <a href="index.html">Главная</a>
-                    <a href="privacy-policy.html">Политика конфиденциальности</a>
+                    <a href="index.html" data-i18n="navHome">Главная</a>
+                    <a href="privacy-policy.html" data-i18n="navPrivacy">Политика конфиденциальности</a>
                 </div>
             </div>
         </div>
     </footer>
+
+    <script src="translations.js"></script>
+    <script src="language.js"></script>
+    <script src="privacy-language.js"></script>
 </body>
 </html>
-
