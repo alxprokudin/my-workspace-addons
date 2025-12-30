@@ -36,22 +36,6 @@ function showPicker() {
 }
 
 /**
- * Gets file metadata from Google Drive.
- * @param {string} fileId - The ID of the file to retrieve.
- * @return {Object} File metadata object.
- */
-function getFile(fileId) {
-  try {
-    if (!fileId || typeof fileId !== 'string') {
-      throw new Error('Invalid file ID provided');
-    }
-    return Drive.Files.get(fileId, { fields: "*" });
-  } catch (error) {
-    throw new Error('Failed to get file: ' + error.toString());
-  }
-}
-
-/**
  * Gets the OAuth token for API requests.
  * @return {string} OAuth token.
  */
@@ -141,83 +125,5 @@ function getExcelFromAnySheet(idFolder) {
     };
   }
 }
-
-
-/**
- * Handles POST requests (webhook endpoint).
- * @param {Object} e - Event object containing POST data.
- * @return {TextOutput} JSON response.
- */
-function doPost(e) {
-  try {
-    if (!e || !e.postData || !e.postData.contents) {
-      throw new Error('Invalid POST request: missing data');
-    }
-
-    const parsedRequest = JSON.parse(e.postData.contents);
-    
-    // Validate required parameters
-    if (!parsedRequest.idTable || !parsedRequest.nameSheet) {
-      throw new Error('Missing required parameters: idTable and nameSheet');
-    }
-
-    const sheet = getSheet(parsedRequest.idTable, parsedRequest.nameSheet);
-    
-    if (!sheet) {
-      throw new Error('Sheet not found');
-    }
-
-    // Fixed: setValues requires an array of arrays, setValue requires a single value
-    if (parsedRequest.value !== undefined) {
-      sheet.getRange('A5').setValue(parsedRequest.value);
-    }
-
-    const response = { 
-      status: "ok", 
-      message: "Operation completed successfully",
-      data: parsedRequest
-    };
-
-    return ContentService.createTextOutput(JSON.stringify(response))
-      .setMimeType(ContentService.MimeType.JSON);
-
-  } catch (error) {
-    const response = { 
-      status: "error", 
-      message: error.toString(),
-      timestamp: new Date().toISOString()
-    };
-
-    return ContentService.createTextOutput(JSON.stringify(response))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-/**
- * Gets a sheet by spreadsheet ID and sheet name.
- * @param {string} ss - Spreadsheet ID.
- * @param {string} sheet - Sheet name.
- * @return {Sheet} The sheet object.
- * @throws {Error} If spreadsheet or sheet is not found.
- */
-function getSheet(ss, sheet) {
-  try {
-    if (!ss || !sheet) {
-      throw new Error('Spreadsheet ID and sheet name are required');
-    }
-    
-    const spreadsheet = SpreadsheetApp.openById(ss);
-    if (!spreadsheet) {
-      throw new Error('Spreadsheet not found');
-    }
-    
-    const sheetObj = spreadsheet.getSheetByName(sheet);
-    if (!sheetObj) {
-      throw new Error(`Sheet "${sheet}" not found`);
-    }
-    
-    return sheetObj;
-  } catch (error) {
-    throw new Error('Failed to get sheet: ' + error.toString());
-  }
-}
+// Note: getSheet() function removed as it's not used in the add-on functionality
+// If needed for future features, it can be added back
