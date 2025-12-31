@@ -34,33 +34,40 @@ jobs:
         run: |
           # Create directory for clasp config
           mkdir -p $HOME/.config
-          # Write credentials file
-          echo "${{ secrets.CLASP_TOKEN }}" > $HOME/.config/.clasprc.json
+          # Write credentials file - use printf to avoid shell interpretation issues
+          printf '%s\n' "${{ secrets.CLASP_TOKEN }}" > $HOME/.config/.clasprc.json
           # Set permissions
           chmod 600 $HOME/.config/.clasprc.json
           # Verify file was created and has content
-          echo "Credentials file created:"
+          echo "=== Credentials file verification ==="
           ls -la $HOME/.config/.clasprc.json
-          echo "File size:"
-          wc -c $HOME/.config/.clasprc.json
-          echo "First 200 chars of file:"
-          head -c 200 $HOME/.config/.clasprc.json
+          echo "File size: $(wc -c < $HOME/.config/.clasprc.json) bytes"
+          echo "File is valid JSON: $(cat $HOME/.config/.clasprc.json | jq . > /dev/null 2>&1 && echo 'YES' || echo 'NO')"
+          echo "First 150 chars:"
+          head -c 150 $HOME/.config/.clasprc.json
           echo ""
-          echo "Full path:"
-          echo "$HOME/.config/.clasprc.json"
+          echo "Last 50 chars:"
+          tail -c 50 $HOME/.config/.clasprc.json
+          echo ""
 
       - name: Deploy to Apps Script
         run: |
+          # Install jq for JSON validation
+          sudo apt-get update && sudo apt-get install -y jq || true
+          
+          # Verify credentials file one more time
+          echo "=== Final credentials check ==="
+          cat $HOME/.config/.clasprc.json | head -c 200
+          echo ""
+          echo "JSON structure check:"
+          cat $HOME/.config/.clasprc.json | jq 'keys' || echo "Invalid JSON structure"
+          
           # Set environment variables for clasp
           export XDG_CONFIG_HOME=$HOME/.config
           export clasp_config_auth=$HOME/.config
-          # Verify environment
-          echo "XDG_CONFIG_HOME: $XDG_CONFIG_HOME"
-          echo "clasp_config_auth: $clasp_config_auth"
-          echo "HOME: $HOME"
-          echo "Checking if credentials file exists:"
-          ls -la $HOME/.config/.clasprc.json || echo "File not found!"
-          # Try with directory path (clasp looks for .clasprc.json in the directory)
+          
+          # Try deployment - clasp should find .clasprc.json in XDG_CONFIG_HOME
+          echo "Attempting deployment..."
           clasp push --force --auth $HOME/.config
 
       - name: Deployment status
