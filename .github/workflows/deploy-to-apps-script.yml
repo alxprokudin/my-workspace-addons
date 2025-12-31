@@ -51,10 +51,14 @@ jobs:
 
       - name: Deploy to Apps Script
         run: |
-          # Set environment variable for clasp to find credentials
+          # Set environment variables for clasp
           export XDG_CONFIG_HOME=$HOME/.config
-          export clasp_config_auth=$HOME/.config/.clasprc.json
-          # Use absolute path with --auth flag
+          export clasp_config_auth=$HOME/.config
+          # Verify environment
+          echo "XDG_CONFIG_HOME: $XDG_CONFIG_HOME"
+          echo "clasp_config_auth: $clasp_config_auth"
+          echo "HOME: $HOME"
+          # Try deployment with explicit auth path
           clasp push --force --auth $HOME/.config/.clasprc.json
 
       - name: Deployment status
