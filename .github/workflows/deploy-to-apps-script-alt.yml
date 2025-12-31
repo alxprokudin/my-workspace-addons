@@ -1,14 +1,7 @@
-name: Deploy to Google Apps Script
+name: Deploy to Google Apps Script (Alternative)
 
 on:
-  push:
-    branches:
-      - excel-export-addon
-    paths:
-      - 'appsScript.js'
-      - 'dialog.html'
-      - 'appsscript.json'
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch: # Manual trigger only
 
 jobs:
   deploy:
@@ -30,27 +23,30 @@ jobs:
         run: |
           echo '{"scriptId":"${{ secrets.CLASP_SCRIPT_ID }}","rootDir":"."}' > .clasp.json
 
-      - name: Authenticate with Google
+      - name: Authenticate with Google (Alternative method)
         run: |
-          # Create directory for clasp config
+          # Try multiple locations for clasp credentials
           mkdir -p $HOME/.config
-          # Write credentials file to both possible locations
+          mkdir -p $HOME
+          
+          # Write to both possible locations
           echo "${{ secrets.CLASP_TOKEN }}" > $HOME/.config/.clasprc.json
           echo "${{ secrets.CLASP_TOKEN }}" > $HOME/.clasprc.json
+          
           # Set permissions
           chmod 600 $HOME/.config/.clasprc.json
           chmod 600 $HOME/.clasprc.json
-          # Verify files
-          echo "Credentials files created:"
-          ls -la $HOME/.config/.clasprc.json
-          ls -la $HOME/.clasprc.json
+          
+          # Verify
+          echo "Checking credentials files:"
+          ls -la $HOME/.config/.clasprc.json || echo "Not in .config"
+          ls -la $HOME/.clasprc.json || echo "Not in home"
 
       - name: Deploy to Apps Script
         run: |
-          # Set environment variables for clasp
-          export XDG_CONFIG_HOME=$HOME/.config
-          export HOME=$HOME
-          # Try deployment
+          # Try with explicit path
+          XDG_CONFIG_HOME=$HOME/.config clasp push --force || \
+          HOME=$HOME clasp push --force || \
           clasp push --force
 
       - name: Deployment status
