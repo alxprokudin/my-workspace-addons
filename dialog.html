@@ -49,22 +49,32 @@
       }
       .close-button {
         margin-top: 1em;
-        padding: 0.75em 1.5em;
-        background-color: #1976d2;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 500;
-        min-width: 120px;
-        transition: background-color 0.2s;
+        padding: 0.75em 1.5em !important;
+        background-color: #1976d2 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        min-width: 120px !important;
+        transition: background-color 0.2s ease !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+        display: inline-block !important;
+        text-align: center !important;
+        text-decoration: none !important;
       }
       .close-button:hover {
-        background-color: #1565c0;
+        background-color: #1565c0 !important;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3) !important;
       }
       .close-button:active {
-        background-color: #0d47a1;
+        background-color: #0d47a1 !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+      }
+      .close-button:focus {
+        outline: 2px solid #1976d2 !important;
+        outline-offset: 2px !important;
       }
     </style>
     <script>

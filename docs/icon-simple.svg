@@ -1,0 +1,36 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="128" height="128" rx="24" fill="url(#gradient)"/>
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1976d2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1565c0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Document icon -->
+  <g transform="translate(32, 24)">
+    <rect x="0" y="0" width="64" height="80" rx="4" fill="white" opacity="0.95"/>
+    <!-- Excel "X" in center -->
+    <g transform="translate(20, 20)">
+      <path d="M 12 8 L 16 12 L 20 8 L 22 10 L 18 14 L 22 18 L 20 20 L 16 16 L 12 20 L 10 18 L 14 14 L 10 10 Z" fill="#217346"/>
+    </g>
+    <!-- Grid pattern at bottom -->
+    <g transform="translate(8, 50)" opacity="0.3">
+      <line x1="0" y1="0" x2="48" y2="0" stroke="#1976d2" stroke-width="1"/>
+      <line x1="0" y1="8" x2="48" y2="8" stroke="#1976d2" stroke-width="1"/>
+      <line x1="0" y1="16" x2="48" y2="16" stroke="#1976d2" stroke-width="1"/>
+      <line x1="16" y1="0" x2="16" y2="24" stroke="#1976d2" stroke-width="1"/>
+      <line x1="32" y1="0" x2="32" y2="24" stroke="#1976d2" stroke-width="1"/>
+    </g>
+  </g>
+  
+  <!-- Export arrow (top right) -->
+  <g transform="translate(88, 20)">
+    <circle cx="12" cy="12" r="10" fill="white" opacity="0.9"/>
+    <path d="M 8 12 L 12 8 L 12 10 L 15 10 L 15 14 L 12 14 L 12 16 Z" fill="#1976d2"/>
+  </g>
+</svg>
+
