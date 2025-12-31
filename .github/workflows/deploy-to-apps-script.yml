@@ -34,24 +34,23 @@ jobs:
         run: |
           # Create directory for clasp config
           mkdir -p $HOME/.config
-          # Write credentials file to both possible locations
+          # Write credentials file
           echo "${{ secrets.CLASP_TOKEN }}" > $HOME/.config/.clasprc.json
-          echo "${{ secrets.CLASP_TOKEN }}" > $HOME/.clasprc.json
           # Set permissions
           chmod 600 $HOME/.config/.clasprc.json
-          chmod 600 $HOME/.clasprc.json
-          # Verify files
-          echo "Credentials files created:"
+          # Verify file was created and has content
+          echo "Credentials file created:"
           ls -la $HOME/.config/.clasprc.json
-          ls -la $HOME/.clasprc.json
+          echo "File content (first 100 chars):"
+          head -c 100 $HOME/.config/.clasprc.json
+          echo ""
 
       - name: Deploy to Apps Script
         run: |
-          # Set environment variables for clasp
-          export XDG_CONFIG_HOME=$HOME/.config
-          export HOME=$HOME
-          # Try deployment
-          clasp push --force
+          # Use --auth flag to explicitly specify credentials file
+          clasp push --force --auth $HOME/.config/.clasprc.json
+        env:
+          XDG_CONFIG_HOME: ${{ env.HOME }}/.config
 
       - name: Deployment status
         run: |
