@@ -6,6 +6,9 @@ creds.json
 # Secrets and keys
 dialog.html
 # Keep dialog.html.example for reference
+CLASP_TOKEN_BASE64.txt
+*client_secret*.json
+*credentials*.json
 
 # OS files
 .DS_Store
