@@ -24,7 +24,7 @@ jobs:
           node-version: '18'
 
       - name: Install clasp
-        run: npm install -g @google/clasp
+        run: npm install -g @google/clasp@3.1.3
 
       - name: Setup .clasp.json
         run: |
@@ -145,7 +145,15 @@ jobs:
           # Check clasp version and login status
           echo "=== Clasp info ==="
           clasp --version
-          clasp login --status || echo "Note: login --status may fail in CI, that's OK"
+          
+          # Show actual token values (first 20 chars) for debugging
+          echo "=== Token values check ==="
+          echo "Access token exists: $(cat $HOME/.clasprc.json | jq -r 'if .tokens.default.access_token then "YES" else "NO" end')"
+          echo "Refresh token exists: $(cat $HOME/.clasprc.json | jq -r 'if .tokens.default.refresh_token then "YES" else "NO" end')"
+          echo "Access token length: $(cat $HOME/.clasprc.json | jq -r '.tokens.default.access_token | length')"
+          
+          # Try using CLASPRC_PATH environment variable (if supported)
+          export CLASPRC_PATH=$HOME/.clasprc.json
           
           # Try deployment - clasp should find .clasprc.json in ~/
           echo "=== Starting deployment ==="
