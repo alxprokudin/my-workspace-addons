@@ -47,10 +47,14 @@
         margin: 0;
         color: #155724;
       }
-      .close-button {
-        margin-top: 1em;
+      /* More specific selector to override add-ons.css */
+      #result .success-message .close-button,
+      .success-message .close-button,
+      button.close-button {
+        margin-top: 1em !important;
         padding: 0.75em 1.5em !important;
         background-color: #1976d2 !important;
+        background: #1976d2 !important;
         color: white !important;
         border: none !important;
         border-radius: 4px !important;
@@ -58,21 +62,32 @@
         font-size: 14px !important;
         font-weight: 500 !important;
         min-width: 120px !important;
-        transition: background-color 0.2s ease !important;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
         display: inline-block !important;
         text-align: center !important;
         text-decoration: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
       }
-      .close-button:hover {
+      #result .success-message .close-button:hover,
+      .success-message .close-button:hover,
+      button.close-button:hover {
         background-color: #1565c0 !important;
+        background: #1565c0 !important;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3) !important;
       }
-      .close-button:active {
+      #result .success-message .close-button:active,
+      .success-message .close-button:active,
+      button.close-button:active {
         background-color: #0d47a1 !important;
+        background: #0d47a1 !important;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
       }
-      .close-button:focus {
+      #result .success-message .close-button:focus,
+      .success-message .close-button:focus,
+      button.close-button:focus {
         outline: 2px solid #1976d2 !important;
         outline-offset: 2px !important;
       }
@@ -250,7 +265,7 @@
                 📁 Открыть папку в Google Drive
               </a>
             </div>
-            <button class="close-button" onclick="google.script.host.close()">
+            <button class="close-button" onclick="google.script.host.close()" style="margin-top: 1em; padding: 0.75em 1.5em; background-color: #1976d2; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; min-width: 120px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); display: inline-block; text-align: center; -webkit-appearance: none; -moz-appearance: none; appearance: none;">
               Закрыть
             </button>
           </div>
