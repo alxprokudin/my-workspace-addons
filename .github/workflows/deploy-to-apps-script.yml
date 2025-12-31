@@ -32,43 +32,75 @@ jobs:
 
       - name: Authenticate with Google
         run: |
+          # Install jq for JSON validation
+          sudo apt-get update && sudo apt-get install -y jq
+          
           # Create directory for clasp config
           mkdir -p $HOME/.config
-          # Write credentials file - use printf to avoid shell interpretation issues
-          printf '%s\n' "${{ secrets.CLASP_TOKEN }}" > $HOME/.config/.clasprc.json
+          
+          # Check Base64 string length
+          echo "=== Base64 string check ==="
+          BASE64_LENGTH=$(echo -n "${{ secrets.CLASP_TOKEN }}" | wc -c)
+          echo "Base64 string length: $BASE64_LENGTH characters"
+          
+          # Decode base64 encoded credentials (safer for special characters)
+          # Remove any whitespace/newlines that might have been added
+          echo -n "${{ secrets.CLASP_TOKEN }}" | tr -d '\n\r ' | base64 -d > $HOME/.config/.clasprc.json
+          
+          # Check if decoding was successful
+          DECODE_EXIT_CODE=$?
+          if [ $DECODE_EXIT_CODE -ne 0 ]; then
+            echo "ERROR: Base64 decoding failed with exit code $DECODE_EXIT_CODE"
+            exit 1
+          fi
+          
           # Set permissions
           chmod 600 $HOME/.config/.clasprc.json
+          
           # Verify file was created and has content
           echo "=== Credentials file verification ==="
           ls -la $HOME/.config/.clasprc.json
-          echo "File size: $(wc -c < $HOME/.config/.clasprc.json) bytes"
-          echo "File is valid JSON: $(cat $HOME/.config/.clasprc.json | jq . > /dev/null 2>&1 && echo 'YES' || echo 'NO')"
-          echo "First 150 chars:"
-          head -c 150 $HOME/.config/.clasprc.json
-          echo ""
-          echo "Last 50 chars:"
-          tail -c 50 $HOME/.config/.clasprc.json
-          echo ""
+          FILE_SIZE=$(wc -c < $HOME/.config/.clasprc.json)
+          echo "File size: $FILE_SIZE bytes"
+          
+          # Validate JSON
+          if ! cat $HOME/.config/.clasprc.json | jq . > /dev/null 2>&1; then
+            echo "ERROR: JSON is invalid!"
+            echo "First 500 chars of decoded content:"
+            head -c 500 $HOME/.config/.clasprc.json
+            echo ""
+            echo "Last 100 chars:"
+            tail -c 100 $HOME/.config/.clasprc.json
+            echo ""
+            exit 1
+          fi
+          
+          echo "✅ JSON is valid"
+          echo "JSON structure:"
+          cat $HOME/.config/.clasprc.json | jq 'keys'
 
       - name: Deploy to Apps Script
         run: |
-          # Install jq for JSON validation
-          sudo apt-get update && sudo apt-get install -y jq || true
-          
-          # Verify credentials file one more time
-          echo "=== Final credentials check ==="
-          cat $HOME/.config/.clasprc.json | head -c 200
-          echo ""
-          echo "JSON structure check:"
-          cat $HOME/.config/.clasprc.json | jq 'keys' || echo "Invalid JSON structure"
-          
           # Set environment variables for clasp
           export XDG_CONFIG_HOME=$HOME/.config
-          export clasp_config_auth=$HOME/.config
+          
+          # Verify credentials file exists and is valid
+          echo "=== Pre-deployment check ==="
+          if [ ! -f "$HOME/.config/.clasprc.json" ]; then
+            echo "ERROR: Credentials file not found!"
+            exit 1
+          fi
+          
+          if ! cat $HOME/.config/.clasprc.json | jq . > /dev/null 2>&1; then
+            echo "ERROR: Credentials file is not valid JSON!"
+            exit 1
+          fi
+          
+          echo "✅ Credentials file is valid"
           
           # Try deployment - clasp should find .clasprc.json in XDG_CONFIG_HOME
-          echo "Attempting deployment..."
-          clasp push --force --auth $HOME/.config
+          echo "=== Starting deployment ==="
+          clasp push --force
 
       - name: Deployment status
         run: |
