@@ -19,6 +19,7 @@ const translations = {
         newProjectDescription: "Скоро здесь появится новый проект...",
         installFromMarketplace: "Установить из Marketplace",
         privacyPolicy: "Политика конфиденциальности",
+        termsOfService: "Условия использования",
         
         // Contact section
         contactTitle: "Связаться со мной",
@@ -229,6 +230,7 @@ const translations = {
         newProjectDescription: "A new project will appear here soon...",
         installFromMarketplace: "Install from Marketplace",
         privacyPolicy: "Privacy Policy",
+        termsOfService: "Terms of Service",
         
         // Contact section
         contactTitle: "Contact Me",
