@@ -2,7 +2,7 @@
  * Creates the add-on menu when the spreadsheet is opened.
  * This function is automatically called by Google Sheets.
  * 
- * Last updated: 2024-12-30 - Testing --auth flag
+ * Last updated: 2024-12-30 - Testing directory path for auth
  */
 function onOpen() {
   SpreadsheetApp.getUi()
