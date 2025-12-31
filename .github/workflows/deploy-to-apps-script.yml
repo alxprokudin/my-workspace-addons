@@ -41,16 +41,21 @@ jobs:
           # Verify file was created and has content
           echo "Credentials file created:"
           ls -la $HOME/.config/.clasprc.json
-          echo "File content (first 100 chars):"
-          head -c 100 $HOME/.config/.clasprc.json
+          echo "File size:"
+          wc -c $HOME/.config/.clasprc.json
+          echo "First 200 chars of file:"
+          head -c 200 $HOME/.config/.clasprc.json
           echo ""
+          echo "Full path:"
+          echo "$HOME/.config/.clasprc.json"
 
       - name: Deploy to Apps Script
         run: |
-          # Use --auth flag to explicitly specify credentials file
+          # Set environment variable for clasp to find credentials
+          export XDG_CONFIG_HOME=$HOME/.config
+          export clasp_config_auth=$HOME/.config/.clasprc.json
+          # Use absolute path with --auth flag
           clasp push --force --auth $HOME/.config/.clasprc.json
-        env:
-          XDG_CONFIG_HOME: ${{ env.HOME }}/.config
 
       - name: Deployment status
         run: |
