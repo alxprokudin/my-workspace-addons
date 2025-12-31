@@ -49,16 +49,22 @@
       }
       .close-button {
         margin-top: 1em;
-        padding: 0.5em 1em;
+        padding: 0.75em 1.5em;
         background-color: #1976d2;
         color: white;
         border: none;
         border-radius: 4px;
         cursor: pointer;
         font-size: 14px;
+        font-weight: 500;
+        min-width: 120px;
+        transition: background-color 0.2s;
       }
       .close-button:hover {
         background-color: #1565c0;
+      }
+      .close-button:active {
+        background-color: #0d47a1;
       }
     </style>
     <script>
@@ -183,10 +189,10 @@
             .withSuccessHandler((response) => {
               if (response && response.success) {
                 showSuccess(response);
-                // Close dialog after 3 seconds
+                // Close dialog after 10 seconds
                 setTimeout(() => {
                   google.script.host.close();
-                }, 3000);
+                }, 10000);
               } else {
                 showError(response && response.message ? response.message : 
                   'Ошибка при экспорте файла');
@@ -225,12 +231,15 @@
             <h3>✓ Экспорт выполнен успешно!</h3>
             <div><strong>Файл:</strong> ${escapeHtml(response.fileName || 'Неизвестно')}</div>
             <div><strong>Папка:</strong> ${escapeHtml(response.folderName || 'Неизвестно')}</div>
-            <a href="${response.fileUrl || '#'}" target="_blank" class="info-link">
-              Открыть файл в Google Drive
-            </a>
-            <a href="${response.folderUrl || '#'}" target="_blank" class="info-link">
-              Открыть папку в Google Drive
-            </a>
+            <div style="margin-top: 1em; padding-top: 1em; border-top: 1px solid #c3e6cb;">
+              <div style="margin-bottom: 0.5em; color: #666; font-size: 13px;">Быстрые ссылки:</div>
+              <a href="${response.fileUrl || '#'}" target="_blank" class="info-link">
+                📄 Открыть файл в Google Drive
+              </a>
+              <a href="${response.folderUrl || '#'}" target="_blank" class="info-link">
+                📁 Открыть папку в Google Drive
+              </a>
+            </div>
             <button class="close-button" onclick="google.script.host.close()">
               Закрыть
             </button>
