@@ -81,9 +81,6 @@ jobs:
 
       - name: Deploy to Apps Script
         run: |
-          # Set environment variables for clasp
-          export XDG_CONFIG_HOME=$HOME/.config
-          
           # Verify credentials file exists and is valid
           echo "=== Pre-deployment check ==="
           if [ ! -f "$HOME/.config/.clasprc.json" ]; then
@@ -98,7 +95,22 @@ jobs:
           
           echo "✅ Credentials file is valid"
           
-          # Try deployment - clasp should find .clasprc.json in XDG_CONFIG_HOME
+          # Copy credentials to both locations for clasp compatibility
+          # clasp looks for .clasprc.json in ~/.clasprc.json (old location)
+          # and $XDG_CONFIG_HOME/.clasprc.json (new location)
+          echo "=== Setting up credentials for clasp ==="
+          cp $HOME/.config/.clasprc.json $HOME/.clasprc.json
+          chmod 600 $HOME/.clasprc.json
+          
+          # Set environment variables for clasp
+          export XDG_CONFIG_HOME=$HOME/.config
+          
+          # Verify both files exist
+          echo "Checking credentials locations:"
+          ls -la $HOME/.clasprc.json
+          ls -la $HOME/.config/.clasprc.json
+          
+          # Try deployment - clasp should find .clasprc.json in ~/
           echo "=== Starting deployment ==="
           clasp push --force
 
