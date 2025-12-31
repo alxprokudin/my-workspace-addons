@@ -156,7 +156,59 @@ const translations = {
         privacyEffectiveDate: "Дата вступления в силу:",
         privacyLastUpdatedDate: "Дата последнего обновления:",
         privacyEffectiveDateValue: "1 января 2024",
-        privacyLastUpdatedDateValue: "1 января 2024"
+        privacyLastUpdatedDateValue: "1 января 2024",
+        
+        // Terms of Service Page
+        navTerms: "Условия использования",
+        termsTitle: "Условия использования дополнения \"Экспорт в Excel\"",
+        termsLastUpdated: "1 января 2024",
+        
+        // Terms of Service Sections
+        termsSection1Title: "1. Принятие условий",
+        termsSection1Text: "Используя дополнение \"Экспорт в Excel\" для Google Sheets (\"Дополнение\"), вы соглашаетесь с настоящими Условиями использования. Если вы не согласны с этими условиями, пожалуйста, не используйте Дополнение.",
+        
+        termsSection2Title: "2. Описание сервиса",
+        termsSection2Text: "Дополнение \"Экспорт в Excel\" позволяет пользователям экспортировать активный лист Google Таблицы в формат Microsoft Excel (.xlsx) и сохранять его в выбранную папку Google Drive.",
+        
+        termsSection3Title: "3. Использование дополнения",
+        termsSection3_1Title: "3.1 Разрешенное использование",
+        termsSection3_1Text: "Вы можете использовать Дополнение для:",
+        termsSection3_1List: [
+            "Экспорта листов Google Таблиц в формат Excel",
+            "Сохранения экспортированных файлов в ваши папки Google Drive",
+            "Любых законных деловых или личных целей"
+        ],
+        termsSection3_2Title: "3.2 Запрещенное использование",
+        termsSection3_2Text: "Вы не можете использовать Дополнение для:",
+        termsSection3_2List: [
+            "Нарушения законов или прав третьих лиц",
+            "Передачи вредоносного кода или вирусов",
+            "Попыток взлома или нарушения работы сервиса",
+            "Любых действий, которые могут нанести вред другим пользователям"
+        ],
+        
+        termsSection4Title: "4. Интеллектуальная собственность",
+        termsSection4Text: "Дополнение и все связанные материалы защищены законами об интеллектуальной собственности. Все права на Дополнение принадлежат разработчику. Вы не можете копировать, модифицировать, распространять или создавать производные работы на основе Дополнения без явного письменного разрешения.",
+        
+        termsSection5Title: "5. Отказ от гарантий",
+        termsSection5Text: "Дополнение предоставляется \"как есть\" без каких-либо гарантий, явных или подразумеваемых. Разработчик не гарантирует, что Дополнение будет работать без ошибок или прерываний, или что оно будет соответствовать вашим конкретным требованиям.",
+        
+        termsSection6Title: "6. Ограничение ответственности",
+        termsSection6Text: "В максимальной степени, разрешенной законом, разработчик не несет ответственности за любые прямые, косвенные, случайные, особые или последующие убытки, возникающие в результате использования или невозможности использования Дополнения.",
+        
+        termsSection7Title: "7. Изменения в условиях",
+        termsSection7Text: "Разработчик оставляет за собой право изменять настоящие Условия использования в любое время. Изменения вступают в силу с момента публикации обновленной версии на этой странице. Продолжение использования Дополнения после внесения изменений означает ваше согласие с новыми условиями.",
+        
+        termsSection8Title: "8. Прекращение использования",
+        termsSection8Text: "Разработчик оставляет за собой право прекратить или приостановить доступ к Дополнению в любое время без предварительного уведомления, если вы нарушаете настоящие Условия использования.",
+        
+        termsSection9Title: "9. Контактная информация",
+        termsSection9Text: "Если у вас есть вопросы относительно настоящих Условий использования, пожалуйста, свяжитесь с нами:",
+        termsSection9Email: "Email:",
+        termsSection9Website: "Веб-сайт:",
+        
+        termsSection10Title: "10. Применимое право",
+        termsSection10Text: "Настоящие Условия использования регулируются и толкуются в соответствии с законами [Ваша страна/юрисдикция]. Любые споры, возникающие из или связанные с настоящими Условиями, подлежат исключительной юрисдикции судов [Ваша страна/юрисдикция]."
     },
     en: {
         // Header
@@ -314,7 +366,59 @@ const translations = {
         privacyEffectiveDate: "Effective date:",
         privacyLastUpdatedDate: "Last updated:",
         privacyEffectiveDateValue: "January 1, 2024",
-        privacyLastUpdatedDateValue: "January 1, 2024"
+        privacyLastUpdatedDateValue: "January 1, 2024",
+        
+        // Terms of Service Page
+        navTerms: "Terms of Service",
+        termsTitle: "Terms of Service for \"Export to Excel\" Add-on",
+        termsLastUpdated: "January 1, 2024",
+        
+        // Terms of Service Sections
+        termsSection1Title: "1. Acceptance of Terms",
+        termsSection1Text: "By using the \"Export to Excel\" add-on for Google Sheets (\"Add-on\"), you agree to these Terms of Service. If you do not agree with these terms, please do not use the Add-on.",
+        
+        termsSection2Title: "2. Service Description",
+        termsSection2Text: "The \"Export to Excel\" add-on allows users to export an active Google Sheet to Microsoft Excel (.xlsx) format and save it to a selected Google Drive folder.",
+        
+        termsSection3Title: "3. Use of the Add-on",
+        termsSection3_1Title: "3.1 Permitted Use",
+        termsSection3_1Text: "You may use the Add-on for:",
+        termsSection3_1List: [
+            "Exporting Google Sheets to Excel format",
+            "Saving exported files to your Google Drive folders",
+            "Any lawful business or personal purposes"
+        ],
+        termsSection3_2Title: "3.2 Prohibited Use",
+        termsSection3_2Text: "You may not use the Add-on for:",
+        termsSection3_2List: [
+            "Violating laws or third-party rights",
+            "Transmitting malicious code or viruses",
+            "Attempting to hack or disrupt the service",
+            "Any actions that may harm other users"
+        ],
+        
+        termsSection4Title: "4. Intellectual Property",
+        termsSection4Text: "The Add-on and all related materials are protected by intellectual property laws. All rights to the Add-on belong to the developer. You may not copy, modify, distribute, or create derivative works based on the Add-on without explicit written permission.",
+        
+        termsSection5Title: "5. Disclaimer of Warranties",
+        termsSection5Text: "The Add-on is provided \"as is\" without any warranties, express or implied. The developer does not guarantee that the Add-on will work without errors or interruptions, or that it will meet your specific requirements.",
+        
+        termsSection6Title: "6. Limitation of Liability",
+        termsSection6Text: "To the maximum extent permitted by law, the developer is not liable for any direct, indirect, incidental, special, or consequential damages arising from the use or inability to use the Add-on.",
+        
+        termsSection7Title: "7. Changes to Terms",
+        termsSection7Text: "The developer reserves the right to change these Terms of Service at any time. Changes take effect upon publication of the updated version on this page. Continued use of the Add-on after changes are made means you agree to the new terms.",
+        
+        termsSection8Title: "8. Termination",
+        termsSection8Text: "The developer reserves the right to terminate or suspend access to the Add-on at any time without prior notice if you violate these Terms of Service.",
+        
+        termsSection9Title: "9. Contact Information",
+        termsSection9Text: "If you have questions regarding these Terms of Service, please contact us:",
+        termsSection9Email: "Email:",
+        termsSection9Website: "Website:",
+        
+        termsSection10Title: "10. Applicable Law",
+        termsSection10Text: "These Terms of Service are governed by and construed in accordance with the laws of [Your country/jurisdiction]. Any disputes arising from or related to these Terms are subject to the exclusive jurisdiction of the courts of [Your country/jurisdiction]."
     }
 };
 

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Условия использования дополнения Экспорт в Excel">
-    <title>Условия использования - Экспорт в Excel</title>
+    <title data-i18n="termsTitle">Условия использования - Экспорт в Excel</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,12 +15,16 @@
         <div class="container">
             <div class="header-content">
                 <a href="index.html" class="logo-link">
-                    <h1 class="logo">Мои проекты</h1>
+                    <h1 class="logo" data-i18n="siteTitle">Мои проекты</h1>
                 </a>
                 <nav class="nav">
-                    <a href="index.html" class="nav-link">Главная</a>
-                    <a href="privacy-policy.html" class="nav-link">Политика конфиденциальности</a>
-                    <a href="terms-of-service.html" class="nav-link active">Условия использования</a>
+                    <a href="index.html" class="nav-link" data-i18n="navHome">Главная</a>
+                    <a href="privacy-policy.html" class="nav-link" data-i18n="navPrivacy">Политика конфиденциальности</a>
+                    <a href="terms-of-service.html" class="nav-link active" data-i18n="navTerms">Условия использования</a>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="ru" aria-label="Русский">RU</button>
+                        <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
+                    </div>
                 </nav>
             </div>
         </div>
@@ -30,52 +34,52 @@
         <article class="privacy-policy">
             <div class="container">
                 <div class="privacy-content">
-                    <h1 class="privacy-title">Условия использования дополнения "Экспорт в Excel"</h1>
+                    <h1 class="privacy-title" data-i18n="termsTitle">Условия использования дополнения "Экспорт в Excel"</h1>
                     
                     <div class="privacy-meta">
-                        <p><strong>Последнее обновление:</strong> <span id="last-updated">1 января 2024</span></p>
+                        <p><strong data-i18n="lastUpdated">Последнее обновление:</strong> <span id="last-updated" data-i18n="termsLastUpdated">1 января 2024</span></p>
                     </div>
 
                     <section class="privacy-section">
-                        <h2>1. Принятие условий</h2>
-                        <p>
+                        <h2 data-i18n="termsSection1Title">1. Принятие условий</h2>
+                        <p data-i18n="termsSection1Text">
                             Используя дополнение "Экспорт в Excel" для Google Sheets ("Дополнение"), вы соглашаетесь с настоящими Условиями использования. 
                             Если вы не согласны с этими условиями, пожалуйста, не используйте Дополнение.
                         </p>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>2. Описание сервиса</h2>
-                        <p>
+                        <h2 data-i18n="termsSection2Title">2. Описание сервиса</h2>
+                        <p data-i18n="termsSection2Text">
                             Дополнение "Экспорт в Excel" позволяет пользователям экспортировать активный лист Google Таблицы в формат Microsoft Excel (.xlsx) 
                             и сохранять его в выбранную папку Google Drive.
                         </p>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>3. Использование дополнения</h2>
+                        <h2 data-i18n="termsSection3Title">3. Использование дополнения</h2>
                         
-                        <h3>3.1 Разрешенное использование</h3>
-                        <p>Вы можете использовать Дополнение для:</p>
-                        <ul>
-                            <li>Экспорта листов Google Таблиц в формат Excel</li>
-                            <li>Сохранения экспортированных файлов в ваши папки Google Drive</li>
-                            <li>Любых законных деловых или личных целей</li>
+                        <h3 data-i18n="termsSection3_1Title">3.1 Разрешенное использование</h3>
+                        <p data-i18n="termsSection3_1Text">Вы можете использовать Дополнение для:</p>
+                        <ul id="termsSection3_1List">
+                            <li data-i18n-list="termsSection3_1List" data-i18n-index="0">Экспорта листов Google Таблиц в формат Excel</li>
+                            <li data-i18n-list="termsSection3_1List" data-i18n-index="1">Сохранения экспортированных файлов в ваши папки Google Drive</li>
+                            <li data-i18n-list="termsSection3_1List" data-i18n-index="2">Любых законных деловых или личных целей</li>
                         </ul>
 
-                        <h3>3.2 Запрещенное использование</h3>
-                        <p>Вы не можете использовать Дополнение для:</p>
-                        <ul>
-                            <li>Нарушения законов или прав третьих лиц</li>
-                            <li>Передачи вредоносного кода или вирусов</li>
-                            <li>Попыток взлома или нарушения работы сервиса</li>
-                            <li>Любых действий, которые могут нанести вред другим пользователям</li>
+                        <h3 data-i18n="termsSection3_2Title">3.2 Запрещенное использование</h3>
+                        <p data-i18n="termsSection3_2Text">Вы не можете использовать Дополнение для:</p>
+                        <ul id="termsSection3_2List">
+                            <li data-i18n-list="termsSection3_2List" data-i18n-index="0">Нарушения законов или прав третьих лиц</li>
+                            <li data-i18n-list="termsSection3_2List" data-i18n-index="1">Передачи вредоносного кода или вирусов</li>
+                            <li data-i18n-list="termsSection3_2List" data-i18n-index="2">Попыток взлома или нарушения работы сервиса</li>
+                            <li data-i18n-list="termsSection3_2List" data-i18n-index="3">Любых действий, которые могут нанести вред другим пользователям</li>
                         </ul>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>4. Интеллектуальная собственность</h2>
-                        <p>
+                        <h2 data-i18n="termsSection4Title">4. Интеллектуальная собственность</h2>
+                        <p data-i18n="termsSection4Text">
                             Дополнение и все связанные материалы защищены законами об интеллектуальной собственности. 
                             Все права на Дополнение принадлежат разработчику. Вы не можете копировать, модифицировать, распространять 
                             или создавать производные работы на основе Дополнения без явного письменного разрешения.
@@ -83,8 +87,8 @@
                     </section>
 
                     <section class="privacy-section">
-                        <h2>5. Отказ от гарантий</h2>
-                        <p>
+                        <h2 data-i18n="termsSection5Title">5. Отказ от гарантий</h2>
+                        <p data-i18n="termsSection5Text">
                             Дополнение предоставляется "как есть" без каких-либо гарантий, явных или подразумеваемых. 
                             Разработчик не гарантирует, что Дополнение будет работать без ошибок или прерываний, 
                             или что оно будет соответствовать вашим конкретным требованиям.
@@ -92,8 +96,8 @@
                     </section>
 
                     <section class="privacy-section">
-                        <h2>6. Ограничение ответственности</h2>
-                        <p>
+                        <h2 data-i18n="termsSection6Title">6. Ограничение ответственности</h2>
+                        <p data-i18n="termsSection6Text">
                             В максимальной степени, разрешенной законом, разработчик не несет ответственности за любые прямые, 
                             косвенные, случайные, особые или последующие убытки, возникающие в результате использования или 
                             невозможности использования Дополнения.
@@ -101,8 +105,8 @@
                     </section>
 
                     <section class="privacy-section">
-                        <h2>7. Изменения в условиях</h2>
-                        <p>
+                        <h2 data-i18n="termsSection7Title">7. Изменения в условиях</h2>
+                        <p data-i18n="termsSection7Text">
                             Разработчик оставляет за собой право изменять настоящие Условия использования в любое время. 
                             Изменения вступают в силу с момента публикации обновленной версии на этой странице. 
                             Продолжение использования Дополнения после внесения изменений означает ваше согласие с новыми условиями.
@@ -110,27 +114,27 @@
                     </section>
 
                     <section class="privacy-section">
-                        <h2>8. Прекращение использования</h2>
-                        <p>
+                        <h2 data-i18n="termsSection8Title">8. Прекращение использования</h2>
+                        <p data-i18n="termsSection8Text">
                             Разработчик оставляет за собой право прекратить или приостановить доступ к Дополнению в любое время 
                             без предварительного уведомления, если вы нарушаете настоящие Условия использования.
                         </p>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>9. Контактная информация</h2>
-                        <p>
+                        <h2 data-i18n="termsSection9Title">9. Контактная информация</h2>
+                        <p data-i18n="termsSection9Text">
                             Если у вас есть вопросы относительно настоящих Условий использования, пожалуйста, свяжитесь с нами:
                         </p>
                         <ul>
-                            <li><strong>Email:</strong> [Ваш email для поддержки]</li>
-                            <li><strong>Веб-сайт:</strong> <a href="https://alxprokudin.github.io/my-workspace-addons/">https://alxprokudin.github.io/my-workspace-addons/</a></li>
+                            <li><strong data-i18n="termsSection9Email">Email:</strong> [Ваш email для поддержки]</li>
+                            <li><strong data-i18n="termsSection9Website">Веб-сайт:</strong> <a href="https://alxprokudin.github.io/my-workspace-addons/">https://alxprokudin.github.io/my-workspace-addons/</a></li>
                         </ul>
                     </section>
 
                     <section class="privacy-section">
-                        <h2>10. Применимое право</h2>
-                        <p>
+                        <h2 data-i18n="termsSection10Title">10. Применимое право</h2>
+                        <p data-i18n="termsSection10Text">
                             Настоящие Условия использования регулируются и толкуются в соответствии с законами [Ваша страна/юрисдикция]. 
                             Любые споры, возникающие из или связанные с настоящими Условиями, подлежат исключительной юрисдикции судов [Ваша страна/юрисдикция].
                         </p>
@@ -142,9 +146,18 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Мои проекты. Все права защищены.</p>
+            <div class="footer-content">
+                <p data-i18n="footerCopyright">&copy; 2024 Мои проекты. Все права защищены.</p>
+                <div class="footer-links">
+                    <a href="index.html" data-i18n="navHome">Главная</a>
+                    <a href="privacy-policy.html" data-i18n="navPrivacy">Политика конфиденциальности</a>
+                    <a href="terms-of-service.html" data-i18n="navTerms">Условия использования</a>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <script src="translations.js"></script>
+    <script src="language.js"></script>
 </body>
 </html>
-
