@@ -33,7 +33,8 @@ jobs:
       - name: Authenticate with Google
         run: |
           mkdir -p ~/.config
-          echo "${{ secrets.CLASP_TOKEN }}" > ~/.clasprc.json
+          echo "${{ secrets.CLASP_TOKEN }}" > ~/.config/.clasprc.json
+          chmod 600 ~/.config/.clasprc.json
 
       - name: Deploy to Apps Script
         run: |
