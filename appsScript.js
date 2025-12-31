@@ -2,7 +2,7 @@
  * Creates the add-on menu when the spreadsheet is opened.
  * This function is automatically called by Google Sheets.
  * 
- * Last updated: 2024-12-30 - Testing credentials in both ~/.clasprc.json and XDG_CONFIG_HOME
+ * Last updated: 2024-12-30 - Testing with detailed token structure diagnostics
  */
 function onOpen() {
   SpreadsheetApp.getUi()

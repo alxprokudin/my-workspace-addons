@@ -78,6 +78,23 @@ jobs:
           echo "✅ JSON is valid"
           echo "JSON structure:"
           cat $HOME/.config/.clasprc.json | jq 'keys'
+          
+          # Verify required structure for clasp
+          echo "=== Verifying clasp token structure ==="
+          if ! cat $HOME/.config/.clasprc.json | jq -e '.tokens.default.access_token' > /dev/null 2>&1; then
+            echo "ERROR: Missing access_token in tokens.default!"
+            echo "Current structure:"
+            cat $HOME/.config/.clasprc.json | jq '.'
+            exit 1
+          fi
+          
+          if ! cat $HOME/.config/.clasprc.json | jq -e '.tokens.default.refresh_token' > /dev/null 2>&1; then
+            echo "ERROR: Missing refresh_token in tokens.default!"
+            exit 1
+          fi
+          
+          echo "✅ Token structure is valid"
+          echo "Access token (first 50 chars): $(cat $HOME/.config/.clasprc.json | jq -r '.tokens.default.access_token' | head -c 50)..."
 
       - name: Deploy to Apps Script
         run: |
@@ -105,10 +122,30 @@ jobs:
           # Set environment variables for clasp
           export XDG_CONFIG_HOME=$HOME/.config
           
-          # Verify both files exist
+          # Verify both files exist and have correct structure
           echo "Checking credentials locations:"
           ls -la $HOME/.clasprc.json
           ls -la $HOME/.config/.clasprc.json
+          
+          # Verify token structure in copied file
+          echo "=== Verifying token structure in ~/.clasprc.json ==="
+          if ! cat $HOME/.clasprc.json | jq -e '.tokens.default.access_token' > /dev/null 2>&1; then
+            echo "ERROR: ~/.clasprc.json is missing access_token!"
+            echo "File content:"
+            cat $HOME/.clasprc.json | jq '.'
+            exit 1
+          fi
+          
+          # Show full token structure for debugging
+          echo "Full token structure:"
+          cat $HOME/.clasprc.json | jq '.tokens.default | {type, has_access_token: (.access_token != null), has_refresh_token: (.refresh_token != null), client_id: (.client_id | .[0:30] + "...")}'
+          
+          echo "✅ Token structure verified in ~/.clasprc.json"
+          
+          # Check clasp version and login status
+          echo "=== Clasp info ==="
+          clasp --version
+          clasp login --status || echo "Note: login --status may fail in CI, that's OK"
           
           # Try deployment - clasp should find .clasprc.json in ~/
           echo "=== Starting deployment ==="
