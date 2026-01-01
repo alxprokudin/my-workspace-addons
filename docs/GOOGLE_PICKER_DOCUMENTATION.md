@@ -1,199 +1,264 @@
 # 📚 Документация Google Picker API
 
-## 🔗 Основные ресурсы
+## 🔗 Основные ссылки
 
-### 1. Официальная документация
+### Официальная документация
 
-**Главная страница документации:**
-- [Google Picker API - Official Documentation](https://developers.google.com/picker)
+1. **Главная страница документации:**
+   - [Google Picker API - Overview](https://developers.google.com/picker)
+   - Полное руководство по использованию Google Picker API
 
-**Включает:**
-- Обзор API
-- Руководства по началу работы
-- Справочник по API
-- Примеры кода
+2. **Руководство разработчика:**
+   - [Google Picker API - Developer Guide](https://developers.google.com/picker/docs)
+   - Подробное руководство по интеграции и использованию
 
----
-
-### 2. Справочник API
-
-**Полный справочник:**
-- [Google Picker API Reference](https://developers.google.com/picker/docs/reference)
-
-**Содержит:**
-- Описание всех классов и методов
-- Параметры и возвращаемые значения
-- Примеры использования
+3. **Справочник API:**
+   - [Google Picker API - Reference](https://developers.google.com/picker/docs/reference)
+   - Полный справочник по всем методам и параметрам
 
 ---
 
-### 3. Руководства
+## 📖 Основные разделы документации
 
-#### Начало работы:
-- [Getting Started with Google Picker](https://developers.google.com/picker/docs)
+### 1. Начало работы
 
-#### Основные концепции:
-- [Picker API Concepts](https://developers.google.com/picker/docs/concepts)
+**Quick Start:**
+- [Getting Started with Google Picker](https://developers.google.com/picker/docs/overview)
+- Быстрый старт и примеры кода
 
----
+**Authentication:**
+- [OAuth 2.0 for Google APIs](https://developers.google.com/identity/protocols/oauth2)
+- Как получить OAuth токен для Picker
 
-## 📖 Важные разделы документации
+### 2. Конфигурация
 
-### Основные классы и методы
+**Views (Представления):**
+- [Picker Views](https://developers.google.com/picker/docs/reference#PickerViewId)
+- Настройка различных типов представлений (Docs, Drive, Photos и т.д.)
 
-#### PickerBuilder
-- [PickerBuilder Class](https://developers.google.com/picker/docs/reference#PickerBuilder)
-- Методы для настройки Picker
+**Features (Функции):**
+- [Picker Features](https://developers.google.com/picker/docs/reference#PickerBuilder.enableFeature)
+- Дополнительные функции (скрытие навигации, выбор папок и т.д.)
 
-#### DocsView
-- [DocsView Class](https://developers.google.com/picker/docs/reference#DocsView)
-- Настройка просмотра документов
+### 3. Примеры кода
 
-#### Feature
-- [Feature Enum](https://developers.google.com/picker/docs/reference#Feature)
-- Доступные функции (например, NAV_HIDDEN)
+**JavaScript Examples:**
+- [Google Picker API - Code Samples](https://developers.google.com/picker/docs/overview#examples)
+- Готовые примеры кода для разных сценариев
 
----
-
-## 💻 Примеры кода
-
-### Официальные примеры:
-- [Google Picker Examples](https://developers.google.com/picker/docs/examples)
-
-### В вашем проекте:
-- См. файл `dialog.html` - там есть рабочий пример использования Google Picker
+**GitHub Examples:**
+- [Google Picker API - GitHub Samples](https://github.com/googleworkspace/picker-api-samples)
+- Примеры кода на GitHub
 
 ---
 
-## 🔑 Аутентификация
+## 🔍 Специфические темы
 
-### OAuth 2.0:
-- [Google OAuth 2.0 for Client-side Web Applications](https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow)
+### Выбор папок
 
-### API Keys:
-- [Using API Keys](https://cloud.google.com/docs/authentication/api-keys)
+**Folder Selection:**
+- [Selecting Folders with Google Picker](https://developers.google.com/picker/docs/reference#DocsView.setSelectFolderEnabled)
+- Как настроить выбор папок вместо файлов
 
----
-
-## ❓ Частые вопросы
-
-### Q: Как настроить Picker для выбора папок?
-
-**A:** Используйте `DocsView` с `setIncludeFolders(true)` и `setSelectFolderEnabled(true)`:
-
+**Ваш код использует:**
 ```javascript
-new google.picker.DocsView()
-  .setIncludeFolders(true)
-  .setSelectFolderEnabled(true)
-  .setMimeTypes('application/vnd.google-apps.folder')
+.setSelectFolderEnabled(true)
+.setMimeTypes('application/vnd.google-apps.folder')
 ```
 
-### Q: Как скрыть навигацию в Picker?
+### OAuth токены
 
-**A:** Используйте `enableFeature(google.picker.Feature.NAV_HIDDEN)`:
+**Getting OAuth Token:**
+- [OAuth 2.0 for Google APIs](https://developers.google.com/identity/protocols/oauth2)
+- Как получить токен для Picker
 
+**Apps Script Integration:**
+- [Google Apps Script - OAuth](https://developers.google.com/apps-script/guides/services/authorization)
+- Интеграция OAuth в Apps Script
+
+### API Keys и Developer Keys
+
+**API Key Setup:**
+- [Using API Keys](https://developers.google.com/picker/docs/overview#api-keys)
+- Настройка API ключей для Picker
+
+**Developer Key:**
+- [Developer Key Configuration](https://developers.google.com/picker/docs/reference#PickerBuilder.setDeveloperKey)
+- Как использовать Developer Key
+
+---
+
+## 📝 Справочник API
+
+### PickerBuilder
+
+**Основные методы:**
+- [PickerBuilder.setOAuthToken()](https://developers.google.com/picker/docs/reference#PickerBuilder.setOAuthToken)
+- [PickerBuilder.setDeveloperKey()](https://developers.google.com/picker/docs/reference#PickerBuilder.setDeveloperKey)
+- [PickerBuilder.setCallback()](https://developers.google.com/picker/docs/reference#PickerBuilder.setCallback)
+- [PickerBuilder.addView()](https://developers.google.com/picker/docs/reference#PickerBuilder.addView)
+
+### DocsView
+
+**Методы для работы с документами:**
+- [DocsView.setIncludeFolders()](https://developers.google.com/picker/docs/reference#DocsView.setIncludeFolders)
+- [DocsView.setSelectFolderEnabled()](https://developers.google.com/picker/docs/reference#DocsView.setSelectFolderEnabled)
+- [DocsView.setMimeTypes()](https://developers.google.com/picker/docs/reference#DocsView.setMimeTypes)
+
+### Response Object
+
+**Обработка ответа:**
+- [Picker Response Object](https://developers.google.com/picker/docs/reference#picker-response-object)
+- Структура объекта ответа от Picker
+
+**Ваш код использует:**
 ```javascript
-new google.picker.PickerBuilder()
-  .enableFeature(google.picker.Feature.NAV_HIDDEN)
+data[google.picker.Response.ACTION]
+data[google.picker.Response.DOCUMENTS]
+data[google.picker.Document.ID]
 ```
-
-### Q: Нужен ли API Key или OAuth Client ID для developerKey?
-
-**A:** Можно использовать оба варианта:
-- **API Key:** Проще для начала, но менее безопасно
-- **OAuth Client ID:** Рекомендуется для production, более безопасно
-
-См. подробнее: `docs/GOOGLE_PICKER_KEYS_GUIDE.md`
 
 ---
 
 ## 🐛 Решение проблем
 
-### Проблемы с авторизацией:
-- [OAuth 2.0 Troubleshooting](https://developers.google.com/identity/protocols/oauth2/policies)
+### Troubleshooting
 
-### Проблемы с API Key:
-- [API Key Best Practices](https://cloud.google.com/docs/authentication/api-keys#securing_an_api_key)
+**Common Issues:**
+- [Google Picker API - Troubleshooting](https://developers.google.com/picker/docs/overview#troubleshooting)
+- Решение типичных проблем
 
----
+**Error Messages:**
+- [Google Picker API - Error Handling](https://developers.google.com/picker/docs/reference#error-handling)
+- Обработка ошибок
 
-## 📚 Дополнительные ресурсы
+### Stack Overflow
 
-### Stack Overflow:
-- [Google Picker API Questions](https://stackoverflow.com/questions/tagged/google-picker-api)
-
-### GitHub:
-- [Google Picker API Issues](https://github.com/googleworkspace/picker-api/issues)
-
-### Google Workspace Developer Community:
-- [Google Workspace Developers Community](https://developers.googleblog.com/)
+**Вопросы и ответы:**
+- [Google Picker API - Stack Overflow](https://stackoverflow.com/questions/tagged/google-picker-api)
+- Вопросы сообщества и ответы
 
 ---
 
-## 🔍 Быстрый поиск в документации
+## 🔐 Безопасность
 
-### По функциональности:
+**Best Practices:**
+- [Google Picker API - Security](https://developers.google.com/picker/docs/overview#security)
+- Рекомендации по безопасности
 
-**Выбор папок:**
-- Поиск: "select folder" или "setIncludeFolders"
-
-**Настройка представлений:**
-- Поиск: "DocsView" или "View"
-
-**Обработка результатов:**
-- Поиск: "pickerCallback" или "Response"
-
-**Ошибки:**
-- Поиск: "error handling" или "troubleshooting"
+**API Key Restrictions:**
+- [Restricting API Keys](https://cloud.google.com/docs/authentication/api-keys#restricting_keys)
+- Как ограничить использование API ключей
 
 ---
 
-## 📝 Полезные ссылки для вашего проекта
+## 📊 Примеры использования
 
-### Для дополнения Google Sheets:
+### Базовый пример
 
-1. **Google Apps Script:**
-   - [Apps Script Documentation](https://developers.google.com/apps-script)
+```javascript
+function createPicker() {
+  const picker = new google.picker.PickerBuilder()
+    .addView(google.picker.ViewId.DOCS)
+    .setOAuthToken(oauthToken)
+    .setDeveloperKey(developerKey)
+    .setCallback(pickerCallback)
+    .build();
+  picker.setVisible(true);
+}
+```
 
-2. **Google Sheets API:**
-   - [Sheets API Documentation](https://developers.google.com/sheets/api)
+### Выбор папок (ваш случай)
 
-3. **Google Drive API:**
-   - [Drive API Documentation](https://developers.google.com/drive/api)
+```javascript
+const picker = new google.picker.PickerBuilder()
+  .addView(
+    new google.picker.DocsView()
+      .setIncludeFolders(true)
+      .setSelectFolderEnabled(true)
+      .setMimeTypes('application/vnd.google-apps.folder')
+  )
+  .setOAuthToken(token)
+  .setDeveloperKey(developerKey)
+  .setCallback(pickerCallback)
+  .build();
+```
 
 ---
 
-## 🎯 Рекомендуемый порядок изучения
+## 🆕 Обновления и изменения
 
-1. **Начните с:**
-   - [Getting Started Guide](https://developers.google.com/picker/docs)
+**Release Notes:**
+- [Google Picker API - Release Notes](https://developers.google.com/picker/docs/overview#release-notes)
+- История изменений и обновлений
 
-2. **Изучите:**
-   - Основные классы (PickerBuilder, DocsView)
-   - Методы настройки (setOAuthToken, setCallback)
-
-3. **Посмотрите примеры:**
-   - [Official Examples](https://developers.google.com/picker/docs/examples)
-
-4. **Используйте справочник:**
-   - [API Reference](https://developers.google.com/picker/docs/reference)
+**Migration Guides:**
+- [Migration Guides](https://developers.google.com/picker/docs/overview#migration)
+- Руководства по миграции при обновлениях
 
 ---
 
-## 🔗 Прямые ссылки
+## 💡 Полезные ресурсы
 
-### Основные:
-- 📘 [Главная документация](https://developers.google.com/picker)
-- 📖 [Справочник API](https://developers.google.com/picker/docs/reference)
-- 💻 [Примеры](https://developers.google.com/picker/docs/examples)
-- 🚀 [Начало работы](https://developers.google.com/picker/docs)
+### Видео и туториалы
 
-### Специфичные темы:
-- 🔑 [OAuth 2.0](https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow)
-- 🔐 [API Keys](https://cloud.google.com/docs/authentication/api-keys)
-- 📁 [DocsView](https://developers.google.com/picker/docs/reference#DocsView)
+**YouTube:**
+- Поиск: "Google Picker API tutorial"
+- Официальные видео от Google
+
+### Блоги и статьи
+
+**Google Developers Blog:**
+- [Google Developers Blog - Picker](https://developers.googleblog.com/search/label/Picker)
+- Статьи и новости о Picker API
+
+---
+
+## 🔗 Быстрые ссылки для вашего проекта
+
+### Что используется в вашем коде:
+
+1. **DocsView с выбором папок:**
+   - [DocsView.setSelectFolderEnabled()](https://developers.google.com/picker/docs/reference#DocsView.setSelectFolderEnabled)
+
+2. **OAuth токены:**
+   - [OAuth 2.0 for Google APIs](https://developers.google.com/identity/protocols/oauth2)
+
+3. **Developer Key:**
+   - [PickerBuilder.setDeveloperKey()](https://developers.google.com/picker/docs/reference#PickerBuilder.setDeveloperKey)
+
+4. **Response handling:**
+   - [Picker Response Object](https://developers.google.com/picker/docs/reference#picker-response-object)
+
+---
+
+## 📚 Дополнительная документация
+
+### Связанные API
+
+**Google Drive API:**
+- [Google Drive API Documentation](https://developers.google.com/drive)
+- Для работы с файлами после выбора в Picker
+
+**Google Apps Script:**
+- [Google Apps Script Documentation](https://developers.google.com/apps-script)
+- Для интеграции Picker в Apps Script
+
+**Google Sheets API:**
+- [Google Sheets API Documentation](https://developers.google.com/sheets)
+- Для работы с таблицами
+
+---
+
+## ✅ Чеклист для изучения
+
+- [ ] Прочитать [Overview](https://developers.google.com/picker)
+- [ ] Изучить [Developer Guide](https://developers.google.com/picker/docs)
+- [ ] Посмотреть [Code Samples](https://developers.google.com/picker/docs/overview#examples)
+- [ ] Изучить [API Reference](https://developers.google.com/picker/docs/reference)
+- [ ] Прочитать про [OAuth 2.0](https://developers.google.com/identity/protocols/oauth2)
+- [ ] Изучить [Troubleshooting](https://developers.google.com/picker/docs/overview#troubleshooting)
 
 ---
 
 **Все ссылки ведут на официальную документацию Google! 📚**
-
