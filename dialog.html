@@ -42,15 +42,17 @@
         width: auto !important;
         transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-        display: inline-block !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         text-align: center !important;
         text-decoration: none !important;
-        line-height: 1.4 !important;
-        vertical-align: middle !important;
         -webkit-appearance: none !important;
         -moz-appearance: none !important;
         appearance: none !important;
         box-sizing: border-box !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
       }
       .download-button:hover {
         background-color: #1565c0 !important;
@@ -179,7 +181,7 @@
     <div>
       <h3 style="margin-top: 0;">Скачать активный лист в Excel</h3>
       <p class="info-text">Файл будет скачан в папку "Загрузки" вашего браузера</p>
-      <button id="downloadButton" class="download-button" onclick="downloadExcel()">
+      <button id="downloadButton" class="download-button" onclick="downloadExcel()" style="display: flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; margin-left: auto !important; margin-right: auto !important;">
         Скачать Excel
       </button>
       <div id="result"></div>
