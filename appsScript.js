@@ -81,15 +81,9 @@ function getExcelBlobAsBase64() {
       // Это работает с spreadsheets.currentonly scope
       blob = tempSpreadsheet.getBlob().setName(`${nameActiveSheet}.xlsx`);
       
-      // Удаляем временную таблицу через DriveApp
-      // Для этого нужен доступ к файлу, но так как мы его создали, это должно работать
-      try {
-        const tempFile = DriveApp.getFileById(tempSpreadsheet.getId());
-        tempFile.setTrashed(true);
-      } catch (trashError) {
-        // Если не удалось удалить - не критично, файл останется во временной папке
-        console.log('Не удалось удалить временную таблицу: ' + trashError.toString());
-      }
+      // Примечание: Временная таблица остается в Drive пользователя
+      // Это не критично, так как она создается с уникальным именем
+      // Пользователь может удалить ее вручную, если нужно
       
     } catch (error) {
       throw new Error(`Не удалось создать временную копию для экспорта: ${error.toString()}`);
