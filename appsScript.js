@@ -98,18 +98,66 @@ function getExcelFromAnySheet(idFolder) {
 
     const blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
 
-    // Сохраняем файл в выбранную папку
-    // Используем DriveApp (работает с drive scope)
-    const folder = DriveApp.getFolderById(idFolder);
-    const file = folder.createFile(blob);
+    // Сохраняем файл в выбранную папку через Drive API v3
+    // Это работает с drive.file scope для папок, выбранных через Google Picker
+    const driveApiUrl = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable';
+    
+    // Метаданные файла
+    const metadata = {
+      name: `${nameActiveSheet}.xlsx`,
+      parents: [idFolder] // ID папки, выбранной через Picker
+    };
+
+    // Шаг 1: Получаем URL для загрузки
+    const initResponse = UrlFetchApp.fetch(driveApiUrl, {
+      method: 'post',
+      headers: {
+        Authorization: "Bearer " + ScriptApp.getOAuthToken(),
+        'Content-Type': 'application/json'
+      },
+      payload: JSON.stringify(metadata)
+    });
+
+    const initResponseCode = initResponse.getResponseCode();
+    if (initResponseCode !== 200) {
+      const errorText = initResponse.getContentText();
+      throw new Error(`Ошибка инициализации загрузки: код ответа ${initResponseCode}. ${errorText}`);
+    }
+
+    // Получаем URL для загрузки из заголовка Location
+    const uploadUrl = initResponse.getHeaders()['Location'];
+    if (!uploadUrl) {
+      throw new Error('Не удалось получить URL для загрузки');
+    }
+
+    // Шаг 2: Загружаем файл
+    const createResponse = UrlFetchApp.fetch(uploadUrl, {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'Content-Length': blob.getBytes().length
+      },
+      payload: blob.getBytes()
+    });
+
+    const createResponseCode = createResponse.getResponseCode();
+    if (createResponseCode !== 200 && createResponseCode !== 201) {
+      const errorText = createResponse.getContentText();
+      throw new Error(`Ошибка создания файла: код ответа ${createResponseCode}. ${errorText}`);
+    }
+
+    const fileData = JSON.parse(createResponse.getContentText());
+    
+    // Получаем информацию о папке через Drive API v3
+    const folderInfo = getFolderInfo(idFolder);
     
     return {
       success: true,
-      folderName: folder.getName(),
-      folderUrl: folder.getUrl(),
-      fileName: file.getName(),
-      fileUrl: file.getUrl(),
-      message: `Файл "${file.getName()}" успешно экспортирован в папку "${folder.getName()}"`
+      folderName: folderInfo.name,
+      folderUrl: folderInfo.url,
+      fileName: fileData.name,
+      fileUrl: `https://drive.google.com/file/d/${fileData.id}/view`,
+      message: `Файл "${fileData.name}" успешно экспортирован в папку "${folderInfo.name}"`
     };
 
   } catch (error) {
@@ -121,5 +169,41 @@ function getExcelFromAnySheet(idFolder) {
   }
 }
 
+/**
+ * Получает информацию о папке через Drive API v3.
+ * Работает с drive.file scope для папок, выбранных через Google Picker.
+ * @param {string} folderId - ID папки
+ * @return {Object} Объект с именем и URL папки
+ */
+function getFolderInfo(folderId) {
+  try {
+    const url = `https://www.googleapis.com/drive/v3/files/${folderId}?fields=name,webViewLink`;
+    const response = UrlFetchApp.fetch(url, {
+      headers: {
+        Authorization: "Bearer " + ScriptApp.getOAuthToken()
+      }
+    });
+    
+    if (response.getResponseCode() === 200) {
+      const data = JSON.parse(response.getContentText());
+      return {
+        name: data.name,
+        url: data.webViewLink || `https://drive.google.com/drive/folders/${folderId}`
+      };
+    } else {
+      // Если не удалось получить информацию, используем базовые данные
+      return {
+        name: 'Выбранная папка',
+        url: `https://drive.google.com/drive/folders/${folderId}`
+      };
+    }
+  } catch (error) {
+    // Fallback на базовые данные
+    return {
+      name: 'Выбранная папка',
+      url: `https://drive.google.com/drive/folders/${folderId}`
+    };
+  }
+}
 // Note: getSheet() function removed as it's not used in the add-on functionality
 // If needed for future features, it can be added back
