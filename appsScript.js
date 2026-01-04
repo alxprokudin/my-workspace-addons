@@ -64,9 +64,17 @@ function getExcelBlobAsBase64() {
     // This works with spreadsheets.currentonly scope
     const exportUrl = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
     
+    // Get OAuth token for authenticated request
+    // For users installing from Marketplace, Google will show OAuth consent screen
+    // Token is automatically refreshed if expired
+    const oauthToken = ScriptApp.getOAuthToken();
+    if (!oauthToken) {
+      throw new Error('Не удалось получить токен авторизации. Пожалуйста, предоставьте необходимые разрешения.');
+    }
+    
     const response = UrlFetchApp.fetch(exportUrl, {
       headers: {
-        Authorization: "Bearer " + ScriptApp.getOAuthToken()
+        Authorization: "Bearer " + oauthToken
       },
       muteHttpExceptions: true
     });
