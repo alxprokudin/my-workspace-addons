@@ -79,24 +79,40 @@ function getExcelFromAnySheet(idFolder) {
     const idSpreadsheet = spreadsheet.getId();
 
     // Export sheet to Excel format
-    // Используем стандартный метод экспорта Google Sheets
-    const url = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
-
-    const response = UrlFetchApp.fetch(url, {
+    // Используем Drive API v3 для экспорта (работает с drive.file scope)
+    // Для экспорта конкретного листа используем параметр gid в URL
+    const exportUrl = `https://www.googleapis.com/drive/v3/files/${idSpreadsheet}/export?mimeType=application%2Fvnd.openxmlformats-officedocument.spreadsheetml.sheet`;
+    
+    // Попробуем сначала экспорт через Drive API
+    let response = UrlFetchApp.fetch(exportUrl, {
       muteHttpExceptions: true,
       headers: {
-        Authorization: "Bearer " + ScriptApp.getOAuthToken(),
+        Authorization: "Bearer " + ScriptApp.getOAuthToken()
       }
     });
 
-    // Check if export was successful
-    const responseCode = response.getResponseCode();
+    let responseCode = response.getResponseCode();
+    let blob;
+
+    // Если Drive API не работает, попробуем стандартный метод
     if (responseCode !== 200) {
-      const errorText = response.getContentText();
-      throw new Error(`Ошибка экспорта: код ответа ${responseCode}. ${errorText || 'Проверьте доступ к таблице и права доступа.'}`);
+      const fallbackUrl = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
+      response = UrlFetchApp.fetch(fallbackUrl, {
+        muteHttpExceptions: true,
+        headers: {
+          Authorization: "Bearer " + ScriptApp.getOAuthToken()
+        }
+      });
+      responseCode = response.getResponseCode();
     }
 
-    const blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
+    // Check if export was successful
+    if (responseCode !== 200) {
+      const errorText = response.getContentText();
+      throw new Error(`Ошибка экспорта: код ответа ${responseCode}. ${errorText || 'Проверьте доступ к таблице и права доступа. Возможно, требуется drive scope вместо drive.file.'}`);
+    }
+
+    blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
 
     // ✅ Используем Drive API v3 для создания файла в папке
     // Это работает с drive.file scope для папок, выбранных через Google Picker
