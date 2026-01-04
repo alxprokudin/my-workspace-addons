@@ -79,25 +79,53 @@ function getExcelFromAnySheet(idFolder) {
     const idSpreadsheet = spreadsheet.getId();
 
     // Export sheet to Excel format
-    // Используем экспорт через URL с drive.readonly scope
-    // Это позволяет экспортировать отдельный лист (не всю таблицу)
-    const url = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
+    // Создаем временную копию таблицы с одним листом для экспорта
+    // Это позволяет экспортировать отдельный лист без drive.readonly scope
+    let tempSpreadsheet;
+    let blob;
+    
+    try {
+      // Создаем временную копию таблицы
+      tempSpreadsheet = spreadsheet.copy(`${nameActiveSheet}_temp_export_${Date.now()}`);
+      
+      // Удаляем все листы кроме нужного
+      const tempSheets = tempSpreadsheet.getSheets();
+      tempSheets.forEach(sheet => {
+        if (sheet.getSheetId() !== idActiveSheet) {
+          tempSpreadsheet.deleteSheet(sheet);
+        }
+      });
+      
+      // Экспортируем временную таблицу через SpreadsheetApp.getBlob()
+      // Это работает с spreadsheets.currentonly scope
+      blob = tempSpreadsheet.getBlob().setName(`${nameActiveSheet}.xlsx`);
+      
+      // Удаляем временную таблицу
+      DriveApp.getFileById(tempSpreadsheet.getId()).setTrashed(true);
+      
+    } catch (error) {
+      // Если не удалось создать временную копию, пробуем экспорт через URL
+      // (может не работать без drive.readonly, но попробуем)
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
+        const response = UrlFetchApp.fetch(url, {
+          muteHttpExceptions: true,
+          headers: {
+            Authorization: "Bearer " + ScriptApp.getOAuthToken(),
+          }
+        });
 
-    const response = UrlFetchApp.fetch(url, {
-      muteHttpExceptions: true,
-      headers: {
-        Authorization: "Bearer " + ScriptApp.getOAuthToken(),
+        const responseCode = response.getResponseCode();
+        if (responseCode === 200) {
+          blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
+        } else {
+          throw new Error(`Ошибка экспорта: код ответа ${responseCode}. Не удалось экспортировать лист.`);
+        }
+      } catch (urlError) {
+        // Если и URL не работает, выбрасываем ошибку
+        throw new Error(`Не удалось экспортировать лист. Ошибка: ${error.toString()}. URL ошибка: ${urlError.toString()}`);
       }
-    });
-
-    // Check if export was successful
-    const responseCode = response.getResponseCode();
-    if (responseCode !== 200) {
-      const errorText = response.getContentText();
-      throw new Error(`Ошибка экспорта: код ответа ${responseCode}. ${errorText || 'Проверьте доступ к таблице и права доступа. Убедитесь, что drive.readonly scope добавлен.'}`);
     }
-
-    const blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
 
     // Сохраняем файл в выбранную папку через Drive API v3
     // Это работает с drive.file scope для папок, выбранных через Google Picker
@@ -132,11 +160,11 @@ function getExcelFromAnySheet(idFolder) {
     }
 
     // Шаг 2: Загружаем файл
+    // ВАЖНО: Не указываем Content-Length - UrlFetchApp устанавливает его автоматически
     const createResponse = UrlFetchApp.fetch(uploadUrl, {
       method: 'put',
       headers: {
-        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'Content-Length': blob.getBytes().length
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       },
       payload: blob.getBytes()
     });
