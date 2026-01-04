@@ -7,7 +7,7 @@
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu("Экспорт в Excel")
-    .addItem("Экспортировать лист", "showPicker")
+    .addItem("Скачать Excel", "showDownloadDialog")
     .addToUi();
 }
 
@@ -20,16 +20,16 @@ function onInstall() {
 }
 
 /**
- * Shows the folder picker dialog.
+ * Shows the download dialog.
  * This function is called when the user clicks the menu item.
  */
-function showPicker() {
+function showDownloadDialog() {
   try {
     const html = HtmlService.createHtmlOutputFromFile("dialog.html")
-      .setWidth(800)
-      .setHeight(600)
+      .setWidth(400)
+      .setHeight(200)
       .setSandboxMode(HtmlService.SandboxMode.IFRAME);
-    SpreadsheetApp.getUi().showModalDialog(html, "Выберите папку для экспорта");
+    SpreadsheetApp.getUi().showModalDialog(html, "Скачать Excel");
   } catch (error) {
     SpreadsheetApp.getUi().alert(
       "Ошибка при открытии диалога: " + error.toString()
@@ -38,31 +38,12 @@ function showPicker() {
 }
 
 /**
- * Gets the OAuth token for API requests.
- * @return {string} OAuth token.
+ * Exports the active sheet to Excel format and returns it as base64 for download.
+ * @return {Object} Object containing file data as base64, file name, and MIME type.
+ * @throws {Error} If export fails.
  */
-function getOAuthToken() {
+function getExcelBlobAsBase64() {
   try {
-    return ScriptApp.getOAuthToken();
-  } catch (error) {
-    throw new Error('Failed to get OAuth token: ' + error.toString());
-  }
-}
-
-/**
- * Exports the active sheet to Excel format and saves it to the selected folder.
- * Uses Drive API v3 to work with drive.file scope.
- * @param {string} idFolder - The ID of the Google Drive folder where the file will be saved.
- * @return {Object} Object containing folder name, folder URL, and file name.
- * @throws {Error} If the folder ID is invalid or export fails.
- */
-function getExcelFromAnySheet(idFolder) {
-  try {
-    // Validate input
-    if (!idFolder || typeof idFolder !== 'string') {
-      throw new Error('Неверный ID папки');
-    }
-
     // Get spreadsheet and active sheet
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     if (!spreadsheet) {
@@ -80,7 +61,7 @@ function getExcelFromAnySheet(idFolder) {
 
     // Export sheet to Excel format
     // Создаем временную копию таблицы с одним листом для экспорта
-    // Это позволяет экспортировать отдельный лист без drive.readonly scope
+    // Это позволяет экспортировать отдельный лист без drive scope
     let tempSpreadsheet;
     let blob;
     
@@ -100,93 +81,28 @@ function getExcelFromAnySheet(idFolder) {
       // Это работает с spreadsheets.currentonly scope
       blob = tempSpreadsheet.getBlob().setName(`${nameActiveSheet}.xlsx`);
       
-      // Удаляем временную таблицу
-      DriveApp.getFileById(tempSpreadsheet.getId()).setTrashed(true);
+      // Удаляем временную таблицу через DriveApp
+      // Для этого нужен доступ к файлу, но так как мы его создали, это должно работать
+      try {
+        const tempFile = DriveApp.getFileById(tempSpreadsheet.getId());
+        tempFile.setTrashed(true);
+      } catch (trashError) {
+        // Если не удалось удалить - не критично, файл останется во временной папке
+        console.log('Не удалось удалить временную таблицу: ' + trashError.toString());
+      }
       
     } catch (error) {
-      // Если не удалось создать временную копию, пробуем экспорт через URL
-      // (может не работать без drive.readonly, но попробуем)
-      try {
-        const url = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
-        const response = UrlFetchApp.fetch(url, {
-          muteHttpExceptions: true,
-          headers: {
-            Authorization: "Bearer " + ScriptApp.getOAuthToken(),
-          }
-        });
-
-        const responseCode = response.getResponseCode();
-        if (responseCode === 200) {
-          blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
-        } else {
-          throw new Error(`Ошибка экспорта: код ответа ${responseCode}. Не удалось экспортировать лист.`);
-        }
-      } catch (urlError) {
-        // Если и URL не работает, выбрасываем ошибку
-        throw new Error(`Не удалось экспортировать лист. Ошибка: ${error.toString()}. URL ошибка: ${urlError.toString()}`);
-      }
+      throw new Error(`Не удалось создать временную копию для экспорта: ${error.toString()}`);
     }
 
-    // Сохраняем файл в выбранную папку через Drive API v3
-    // Это работает с drive.file scope для папок, выбранных через Google Picker
-    const driveApiUrl = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable';
-    
-    // Метаданные файла
-    const metadata = {
-      name: `${nameActiveSheet}.xlsx`,
-      parents: [idFolder] // ID папки, выбранной через Picker
-    };
-
-    // Шаг 1: Получаем URL для загрузки
-    const initResponse = UrlFetchApp.fetch(driveApiUrl, {
-      method: 'post',
-      headers: {
-        Authorization: "Bearer " + ScriptApp.getOAuthToken(),
-        'Content-Type': 'application/json'
-      },
-      payload: JSON.stringify(metadata)
-    });
-
-    const initResponseCode = initResponse.getResponseCode();
-    if (initResponseCode !== 200) {
-      const errorText = initResponse.getContentText();
-      throw new Error(`Ошибка инициализации загрузки: код ответа ${initResponseCode}. ${errorText}`);
-    }
-
-    // Получаем URL для загрузки из заголовка Location
-    const uploadUrl = initResponse.getHeaders()['Location'];
-    if (!uploadUrl) {
-      throw new Error('Не удалось получить URL для загрузки');
-    }
-
-    // Шаг 2: Загружаем файл
-    // ВАЖНО: Не указываем Content-Length - UrlFetchApp устанавливает его автоматически
-    const createResponse = UrlFetchApp.fetch(uploadUrl, {
-      method: 'put',
-      headers: {
-        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      },
-      payload: blob.getBytes()
-    });
-
-    const createResponseCode = createResponse.getResponseCode();
-    if (createResponseCode !== 200 && createResponseCode !== 201) {
-      const errorText = createResponse.getContentText();
-      throw new Error(`Ошибка создания файла: код ответа ${createResponseCode}. ${errorText}`);
-    }
-
-    const fileData = JSON.parse(createResponse.getContentText());
-    
-    // Получаем информацию о папке через Drive API v3
-    const folderInfo = getFolderInfo(idFolder);
+    // Конвертируем blob в base64 для передачи в HTML
+    const base64 = Utilities.base64Encode(blob.getBytes());
     
     return {
       success: true,
-      folderName: folderInfo.name,
-      folderUrl: folderInfo.url,
-      fileName: fileData.name,
-      fileUrl: `https://drive.google.com/file/d/${fileData.id}/view`,
-      message: `Файл "${fileData.name}" успешно экспортирован в папку "${folderInfo.name}"`
+      data: base64,
+      name: `${nameActiveSheet}.xlsx`,
+      mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     };
 
   } catch (error) {
@@ -194,43 +110,6 @@ function getExcelFromAnySheet(idFolder) {
       success: false,
       error: error.toString(),
       message: 'Ошибка при экспорте: ' + error.toString()
-    };
-  }
-}
-
-/**
- * Получает информацию о папке через Drive API v3.
- * Работает с drive.file scope для папок, выбранных через Google Picker.
- * @param {string} folderId - ID папки
- * @return {Object} Объект с именем и URL папки
- */
-function getFolderInfo(folderId) {
-  try {
-    const url = `https://www.googleapis.com/drive/v3/files/${folderId}?fields=name,webViewLink`;
-    const response = UrlFetchApp.fetch(url, {
-      headers: {
-        Authorization: "Bearer " + ScriptApp.getOAuthToken()
-      }
-    });
-    
-    if (response.getResponseCode() === 200) {
-      const data = JSON.parse(response.getContentText());
-      return {
-        name: data.name,
-        url: data.webViewLink || `https://drive.google.com/drive/folders/${folderId}`
-      };
-    } else {
-      // Если не удалось получить информацию, используем базовые данные
-      return {
-        name: 'Выбранная папка',
-        url: `https://drive.google.com/drive/folders/${folderId}`
-      };
-    }
-  } catch (error) {
-    // Fallback на базовые данные
-    return {
-      name: 'Выбранная папка',
-      url: `https://drive.google.com/drive/folders/${folderId}`
     };
   }
 }

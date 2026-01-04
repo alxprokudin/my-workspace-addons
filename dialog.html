@@ -5,7 +5,8 @@
     <style>
       body {
         font-family: 'Roboto', Arial, sans-serif;
-        padding: 1em;
+        padding: 2em;
+        text-align: center;
       }
       #result {
         display: flex;
@@ -13,225 +14,120 @@
         gap: 1em;
         margin-top: 1em;
       }
-      .success-message {
-        background-color: #d4edda;
-        border: 1px solid #c3e6cb;
-        color: #155724;
-        padding: 1em;
-        border-radius: 4px;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5em;
-      }
       .error-message {
         background-color: #f8d7da;
         border: 1px solid #f5c6cb;
         color: #721c24;
         padding: 1em;
         border-radius: 4px;
-      }
-      .info-link {
-        color: #1976d2;
-        text-decoration: none;
-        margin-top: 0.5em;
-      }
-      .info-link:hover {
-        text-decoration: underline;
+        text-align: left;
       }
       .loading {
         text-align: center;
         padding: 2em;
         color: #666;
       }
-      h3 {
-        margin: 0;
-        color: #155724;
+      .download-button {
+        margin-top: 1em;
+        padding: 0.75em 1.5em;
+        background-color: #1976d2;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        min-width: 200px;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
-      /* More specific selector to override add-ons.css */
-      #result .success-message .close-button,
-      .success-message .close-button,
-      button.close-button {
-        margin-top: 1em !important;
-        padding: 0.75em 1.5em !important;
-        background-color: #1976d2 !important;
-        background: #1976d2 !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 4px !important;
-        cursor: pointer !important;
-        font-size: 14px !important;
-        font-weight: 500 !important;
-        min-width: 120px !important;
-        width: 100% !important;
-        transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-        display: block !important;
-        text-align: center !important;
-        text-decoration: none !important;
-        line-height: 1.5 !important;
-        -webkit-appearance: none !important;
-        -moz-appearance: none !important;
-        appearance: none !important;
+      .download-button:hover {
+        background-color: #1565c0;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
       }
-      #result .success-message .close-button:hover,
-      .success-message .close-button:hover,
-      button.close-button:hover {
-        background-color: #1565c0 !important;
-        background: #1565c0 !important;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3) !important;
+      .download-button:active {
+        background-color: #0d47a1;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
       }
-      #result .success-message .close-button:active,
-      .success-message .close-button:active,
-      button.close-button:active {
-        background-color: #0d47a1 !important;
-        background: #0d47a1 !important;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+      .download-button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        box-shadow: none;
       }
-      #result .success-message .close-button:focus,
-      .success-message .close-button:focus,
-      button.close-button:focus {
-        outline: 2px solid #1976d2 !important;
-        outline-offset: 2px !important;
+      .info-text {
+        color: #666;
+        font-size: 14px;
+        margin-top: 1em;
       }
     </style>
     <script>
-      // ВАЖНО: Замените эти значения на ваши реальные ключи из Google Cloud Console
-      // НЕ коммитьте файл с реальными ключами в публичный репозиторий!
-      const DEVELOPER_KEY = "ВАШ_DEVELOPER_KEY_ЗДЕСЬ";
-      const CLOUD_PROJECT_NUMBER = "ВАШ_CLOUD_PROJECT_NUMBER_ЗДЕСЬ";
-
-      let pickerApiLoaded = false;
-      let oauthToken;
-
       /**
-       * Loads the Google Picker API.
+       * Downloads the Excel file to the user's computer.
        */
-      function onApiLoad() {
-        gapi.load("picker", {
-          callback: function () {
-            pickerApiLoaded = true;
-          },
-        });
-      }
+      function downloadExcel() {
+        const button = document.getElementById('downloadButton');
+        const result = document.getElementById('result');
+        
+        // Disable button and show loading
+        button.disabled = true;
+        button.textContent = 'Подготовка файла...';
+        result.innerHTML = '<div class="loading">Экспорт листа в Excel...</div>';
 
-      /**
-       * Gets OAuth token from the server and creates the picker.
-       */
-      function getOAuthToken() {
-        showLoading();
+        // Get Excel file data from server
         google.script.run
-          .withSuccessHandler((token) => {
-            if (!token) {
-              showError('Не удалось получить токен авторизации');
-              return;
+          .withSuccessHandler((fileData) => {
+            if (fileData && fileData.success) {
+              // Decode base64 to binary
+              const byteCharacters = atob(fileData.data);
+              const byteNumbers = new Array(byteCharacters.length);
+              for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+              }
+              const byteArray = new Uint8Array(byteNumbers);
+              
+              // Create Blob
+              const blob = new Blob([byteArray], { type: fileData.mimeType });
+              
+              // Create download link
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = fileData.name;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              
+              // Clean up
+              URL.revokeObjectURL(url);
+              
+              // Show success message
+              result.innerHTML = `
+                <div style="color: #155724; padding: 1em; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 4px;">
+                  <strong>✓ Файл успешно скачан!</strong><br>
+                  <span style="font-size: 14px; color: #666;">Файл "${escapeHtml(fileData.name)}" сохранен в папку "Загрузки"</span>
+                </div>
+              `;
+              
+              // Re-enable button
+              button.disabled = false;
+              button.textContent = 'Скачать Excel';
+              
+              // Close dialog after 3 seconds
+              setTimeout(() => {
+                google.script.host.close();
+              }, 3000);
+            } else {
+              showError(fileData && fileData.message ? fileData.message : 'Ошибка при экспорте файла');
+              button.disabled = false;
+              button.textContent = 'Скачать Excel';
             }
-            oauthToken = token;
-            createPicker(token);
           })
           .withFailureHandler((error) => {
-            showError('Ошибка авторизации: ' + (error.message || error));
+            showError('Ошибка экспорта: ' + (error.message || error));
+            button.disabled = false;
+            button.textContent = 'Скачать Excel';
           })
-          .getOAuthToken();
-      }
-
-      /**
-       * Creates and displays the Google Picker for folder selection.
-       * @param {string} token - OAuth token for API access.
-       */
-      function createPicker(token) {
-        document.getElementById("result").innerHTML = "";
-
-        if (!pickerApiLoaded) {
-          showError("Ошибка загрузки Google Picker API. Пожалуйста, обновите страницу.");
-          return;
-        }
-
-        if (!token) {
-          showError("Ошибка авторизации. Токен не получен.");
-          return;
-        }
-
-        try {
-          const picker = new google.picker.PickerBuilder()
-            .addView(
-              new google.picker.DocsView()
-                .setIncludeFolders(true)
-                .setSelectFolderEnabled(true)
-                .setMimeTypes('application/vnd.google-apps.folder')
-            )
-            .enableFeature(google.picker.Feature.NAV_HIDDEN)
-            .hideTitleBar()
-            .setOAuthToken(token)
-            .setDeveloperKey(DEVELOPER_KEY)
-            .setAppId(CLOUD_PROJECT_NUMBER)
-            .setCallback(pickerCallback)
-            .setOrigin(google.script.host.origin)
-            .build();
-          picker.setVisible(true);
-        } catch (error) {
-          showError("Ошибка при создании Picker: " + (error.message || error));
-        }
-      }
-
-      /**
-       * A callback function that extracts the chosen document's metadata from the
-       * response object. For details on the response object, see
-       * https://developers.google.com/picker/reference/picker.responseobject
-       *
-       * @param {object} data The response object.
-       */
-      function pickerCallback(data) {
-        const action = data[google.picker.Response.ACTION];
-        if (action == google.picker.Action.PICKED) {
-          handlePicked(data);
-        } else if (action == google.picker.Action.CANCEL) {
-          // document.getElementById("result").innerHTML = "Picker canceled.";
-          google.script.host.close()
-        }
-      }
-
-      /**
-       * Handles `"PICKED"` response from the Google Picker.
-       * @param {object} data The response object.
-       */
-      function handlePicked(data) {
-        try {
-          if (!data || !data[google.picker.Response.DOCUMENTS] || 
-              data[google.picker.Response.DOCUMENTS].length === 0) {
-            showError('Не удалось получить информацию о выбранной папке');
-            return;
-          }
-
-          const doc = data[google.picker.Response.DOCUMENTS][0];
-          const id = doc[google.picker.Document.ID];
-
-          if (!id) {
-            showError('Неверный ID папки');
-            return;
-          }
-
-          showLoading('Экспорт файла...');
-
-          google.script.run
-            .withSuccessHandler((response) => {
-              if (response && response.success) {
-                showSuccess(response);
-                // Close dialog after 10 seconds
-                setTimeout(() => {
-                  google.script.host.close();
-                }, 10000);
-              } else {
-                showError(response && response.message ? response.message : 
-                  'Ошибка при экспорте файла');
-              }
-            })
-            .withFailureHandler((error) => {
-              showError('Ошибка экспорта: ' + (error.message || error));
-            })
-            .getExcelFromAnySheet(id);
-        } catch (error) {
-          showError('Ошибка обработки выбора: ' + (error.message || error));
-        }
+          .getExcelBlobAsBase64();
       }
 
       /**
@@ -245,42 +141,6 @@
             <strong>Ошибка:</strong> ${escapeHtml(message)}
           </div>
         `;
-      }
-
-      /**
-       * Displays a success message with file information.
-       * @param {Object} response - Response object from server.
-       */
-      function showSuccess(response) {
-        const resultElement = document.getElementById("result");
-        resultElement.innerHTML = `
-          <div class="success-message">
-            <h3>✓ Экспорт выполнен успешно!</h3>
-            <div><strong>Файл:</strong> ${escapeHtml(response.fileName || 'Неизвестно')}</div>
-            <div><strong>Папка:</strong> ${escapeHtml(response.folderName || 'Неизвестно')}</div>
-            <div style="margin-top: 1em; padding-top: 1em; border-top: 1px solid #c3e6cb;">
-              <div style="margin-bottom: 0.5em; color: #666; font-size: 13px;">Быстрые ссылки:</div>
-              <a href="${response.fileUrl || '#'}" target="_blank" class="info-link">
-                📄 Открыть файл в Google Drive
-              </a>
-              <a href="${response.folderUrl || '#'}" target="_blank" class="info-link">
-                📁 Открыть папку в Google Drive
-              </a>
-            </div>
-            <button class="close-button" onclick="google.script.host.close()" style="margin-top: 1em; padding: 0.75em 1.5em; background-color: #1976d2; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; min-width: 120px; width: 100%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); display: block; text-align: center; line-height: 1.5; -webkit-appearance: none; -moz-appearance: none; appearance: none;">
-              Закрыть
-            </button>
-          </div>
-        `;
-      }
-
-      /**
-       * Shows a loading message.
-       * @param {string} message - Loading message to display.
-       */
-      function showLoading(message = 'Загрузка...') {
-        const resultElement = document.getElementById("result");
-        resultElement.innerHTML = `<div class="loading">${escapeHtml(message)}</div>`;
       }
 
       /**
@@ -298,11 +158,12 @@
 
   <body>
     <div>
+      <h3 style="margin-top: 0;">Скачать активный лист в Excel</h3>
+      <p class="info-text">Файл будет скачан в папку "Загрузки" вашего браузера</p>
+      <button id="downloadButton" class="download-button" onclick="downloadExcel()">
+        Скачать Excel
+      </button>
       <div id="result"></div>
     </div>
-    <script>
-      window.onload = () => getOAuthToken()
-    </script>
-    <script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
   </body>
 </html>
