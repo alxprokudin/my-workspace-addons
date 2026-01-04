@@ -98,7 +98,8 @@ function getExcelFromAnySheet(idFolder) {
 
     // ✅ Используем Drive API v3 для создания файла в папке
     // Это работает с drive.file scope для папок, выбранных через Google Picker
-    const driveApiUrl = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
+    // Используем resumable upload для большей надежности
+    const driveApiUrl = 'https://www.googleapis.com/drive/v3/files?uploadType=resumable';
     
     // Метаданные файла
     const metadata = {
@@ -106,25 +107,36 @@ function getExcelFromAnySheet(idFolder) {
       parents: [idFolder] // ID папки, выбранной через Picker
     };
 
-    // Создаем multipart payload
-    const boundary = '----WebKitFormBoundary' + Utilities.getRandomString(16);
-    const metadataPart = `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n`;
-    const filePart = `--${boundary}\r\nContent-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\r\n\r\n`;
-    const endBoundary = `\r\n--${boundary}--`;
-
-    // Собираем payload
-    const payload = Utilities.newBlob(metadataPart + filePart);
-    payload.append(blob);
-    payload.append(Utilities.newBlob(endBoundary));
-
-    // Создаем файл через Drive API v3
-    const createResponse = UrlFetchApp.fetch(driveApiUrl, {
+    // Шаг 1: Получаем URL для загрузки
+    const initResponse = UrlFetchApp.fetch(driveApiUrl, {
       method: 'post',
       headers: {
         Authorization: "Bearer " + ScriptApp.getOAuthToken(),
-        'Content-Type': `multipart/related; boundary=${boundary}`
+        'Content-Type': 'application/json'
       },
-      payload: payload.getBytes()
+      payload: JSON.stringify(metadata)
+    });
+
+    const initResponseCode = initResponse.getResponseCode();
+    if (initResponseCode !== 200) {
+      const errorText = initResponse.getContentText();
+      throw new Error(`Ошибка инициализации загрузки: код ответа ${initResponseCode}. ${errorText}`);
+    }
+
+    // Получаем URL для загрузки из заголовка Location
+    const uploadUrl = initResponse.getHeaders()['Location'];
+    if (!uploadUrl) {
+      throw new Error('Не удалось получить URL для загрузки');
+    }
+
+    // Шаг 2: Загружаем файл
+    const createResponse = UrlFetchApp.fetch(uploadUrl, {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'Content-Length': blob.getBytes().length
+      },
+      payload: blob.getBytes()
     });
 
     const createResponseCode = createResponse.getResponseCode();
