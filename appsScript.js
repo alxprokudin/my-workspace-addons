@@ -51,6 +51,7 @@ function getOAuthToken() {
 
 /**
  * Exports the active sheet to Excel format and saves it to the selected folder.
+ * Uses Drive API v3 to work with drive.file scope.
  * @param {string} idFolder - The ID of the Google Drive folder where the file will be saved.
  * @return {Object} Object containing folder name, folder URL, and file name.
  * @throws {Error} If the folder ID is invalid or export fails.
@@ -77,17 +78,6 @@ function getExcelFromAnySheet(idFolder) {
     const nameActiveSheet = activeSheet.getSheetName();
     const idSpreadsheet = spreadsheet.getId();
 
-    // Validate folder access
-    let folder;
-    try {
-      folder = DriveApp.getFolderById(idFolder);
-    } catch (error) {
-      throw new Error('Не удалось получить доступ к папке. Проверьте права доступа.');
-    }
-
-    const nameOfFolder = folder.getName();
-    const urlForFolder = folder.getUrl();
-
     // Export sheet to Excel format
     const url = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
 
@@ -106,17 +96,55 @@ function getExcelFromAnySheet(idFolder) {
 
     const blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
 
-    // Create file in the selected folder
-    const file = folder.createFile(blob);
-    const fileName = file.getName();
+    // ✅ Используем Drive API v3 для создания файла в папке
+    // Это работает с drive.file scope для папок, выбранных через Google Picker
+    const driveApiUrl = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
+    
+    // Метаданные файла
+    const metadata = {
+      name: `${nameActiveSheet}.xlsx`,
+      parents: [idFolder] // ID папки, выбранной через Picker
+    };
 
+    // Создаем multipart payload
+    const boundary = '----WebKitFormBoundary' + Utilities.getRandomString(16);
+    const metadataPart = `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n`;
+    const filePart = `--${boundary}\r\nContent-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\r\n\r\n`;
+    const endBoundary = `\r\n--${boundary}--`;
+
+    // Собираем payload
+    const payload = Utilities.newBlob(metadataPart + filePart);
+    payload.append(blob);
+    payload.append(Utilities.newBlob(endBoundary));
+
+    // Создаем файл через Drive API v3
+    const createResponse = UrlFetchApp.fetch(driveApiUrl, {
+      method: 'post',
+      headers: {
+        Authorization: "Bearer " + ScriptApp.getOAuthToken(),
+        'Content-Type': `multipart/related; boundary=${boundary}`
+      },
+      payload: payload.getBytes()
+    });
+
+    const createResponseCode = createResponse.getResponseCode();
+    if (createResponseCode !== 200) {
+      const errorText = createResponse.getContentText();
+      throw new Error(`Ошибка создания файла: код ответа ${createResponseCode}. ${errorText}`);
+    }
+
+    const fileData = JSON.parse(createResponse.getContentText());
+    
+    // Получаем информацию о папке через Drive API v3
+    const folderInfo = getFolderInfo(idFolder);
+    
     return {
       success: true,
-      folderName: nameOfFolder,
-      folderUrl: urlForFolder,
-      fileName: fileName,
-      fileUrl: file.getUrl(),
-      message: `Файл "${fileName}" успешно экспортирован в папку "${nameOfFolder}"`
+      folderName: folderInfo.name,
+      folderUrl: folderInfo.url,
+      fileName: fileData.name,
+      fileUrl: `https://drive.google.com/file/d/${fileData.id}/view`,
+      message: `Файл "${fileData.name}" успешно экспортирован в папку "${folderInfo.name}"`
     };
 
   } catch (error) {
@@ -124,6 +152,43 @@ function getExcelFromAnySheet(idFolder) {
       success: false,
       error: error.toString(),
       message: 'Ошибка при экспорте: ' + error.toString()
+    };
+  }
+}
+
+/**
+ * Получает информацию о папке через Drive API v3.
+ * Работает с drive.file scope для папок, выбранных через Google Picker.
+ * @param {string} folderId - ID папки
+ * @return {Object} Объект с именем и URL папки
+ */
+function getFolderInfo(folderId) {
+  try {
+    const url = `https://www.googleapis.com/drive/v3/files/${folderId}?fields=name,webViewLink`;
+    const response = UrlFetchApp.fetch(url, {
+      headers: {
+        Authorization: "Bearer " + ScriptApp.getOAuthToken()
+      }
+    });
+    
+    if (response.getResponseCode() === 200) {
+      const data = JSON.parse(response.getContentText());
+      return {
+        name: data.name,
+        url: data.webViewLink || `https://drive.google.com/drive/folders/${folderId}`
+      };
+    } else {
+      // Если не удалось получить информацию, используем базовые данные
+      return {
+        name: 'Выбранная папка',
+        url: `https://drive.google.com/drive/folders/${folderId}`
+      };
+    }
+  } catch (error) {
+    // Fallback на базовые данные
+    return {
+      name: 'Выбранная папка',
+      url: `https://drive.google.com/drive/folders/${folderId}`
     };
   }
 }
