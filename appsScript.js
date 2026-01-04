@@ -79,6 +79,7 @@ function getExcelFromAnySheet(idFolder) {
     const idSpreadsheet = spreadsheet.getId();
 
     // Export sheet to Excel format
+    // Используем стандартный метод экспорта Google Sheets
     const url = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
 
     const response = UrlFetchApp.fetch(url, {
@@ -91,7 +92,8 @@ function getExcelFromAnySheet(idFolder) {
     // Check if export was successful
     const responseCode = response.getResponseCode();
     if (responseCode !== 200) {
-      throw new Error(`Ошибка экспорта: код ответа ${responseCode}`);
+      const errorText = response.getContentText();
+      throw new Error(`Ошибка экспорта: код ответа ${responseCode}. ${errorText || 'Проверьте доступ к таблице и права доступа.'}`);
     }
 
     const blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
