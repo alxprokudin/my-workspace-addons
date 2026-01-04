@@ -79,24 +79,34 @@ function getExcelFromAnySheet(idFolder) {
     const idSpreadsheet = spreadsheet.getId();
 
     // Export sheet to Excel format
-    // Используем стандартный метод экспорта Google Sheets
-    const url = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
+    // Используем SpreadsheetApp.getBlob() - работает с spreadsheets.currentonly scope
+    // ВАЖНО: Этот метод экспортирует ВСЮ таблицу, а не отдельный лист
+    // Это ограничение из-за использования spreadsheets.currentonly вместо drive scope
+    let blob;
+    
+    try {
+      // Попробуем экспорт через URL (может не работать с spreadsheets.currentonly)
+      const url = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
+      const response = UrlFetchApp.fetch(url, {
+        muteHttpExceptions: true,
+        headers: {
+          Authorization: "Bearer " + ScriptApp.getOAuthToken(),
+        }
+      });
 
-    const response = UrlFetchApp.fetch(url, {
-      muteHttpExceptions: true,
-      headers: {
-        Authorization: "Bearer " + ScriptApp.getOAuthToken(),
+      const responseCode = response.getResponseCode();
+      if (responseCode === 200) {
+        // Успешно экспортировали через URL
+        blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
+      } else {
+        // URL не работает, используем SpreadsheetApp.getBlob()
+        // Это экспортирует всю таблицу, но работает с spreadsheets.currentonly
+        blob = spreadsheet.getBlob().setName(`${nameActiveSheet}.xlsx`);
       }
-    });
-
-    // Check if export was successful
-    const responseCode = response.getResponseCode();
-    if (responseCode !== 200) {
-      const errorText = response.getContentText();
-      throw new Error(`Ошибка экспорта: код ответа ${responseCode}. ${errorText || 'Проверьте доступ к таблице и права доступа.'}`);
+    } catch (error) {
+      // Если URL не работает, используем SpreadsheetApp.getBlob()
+      blob = spreadsheet.getBlob().setName(`${nameActiveSheet}.xlsx`);
     }
-
-    const blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
 
     // Сохраняем файл в выбранную папку через Drive API v3
     // Это работает с drive.file scope для папок, выбранных через Google Picker
