@@ -5,14 +5,39 @@
     <style>
       body {
         font-family: 'Roboto', Arial, sans-serif;
-        padding: 2em;
+        padding: 1.5em;
         text-align: center;
+        margin: 0;
+        overflow-y: auto;
+        box-sizing: border-box;
       }
       #result {
         display: flex;
         flex-direction: column;
         gap: 1em;
         margin-top: 1em;
+        min-height: 0;
+      }
+      .success-message {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        padding: 1em;
+        border-radius: 4px;
+        text-align: center;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+      .success-message strong {
+        display: block;
+        margin-bottom: 0.5em;
+        font-size: 16px;
+      }
+      .success-message span {
+        display: block;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
       }
       .error-message {
         background-color: #f8d7da;
@@ -21,6 +46,8 @@
         padding: 1em;
         border-radius: 4px;
         text-align: left;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
       }
       .loading {
         text-align: center;
@@ -123,9 +150,9 @@
               
               // Show success message
               result.innerHTML = `
-                <div style="color: #155724; padding: 1em; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 4px;">
-                  <strong>✓ Файл успешно скачан!</strong><br>
-                  <span style="font-size: 14px; color: #666;">Файл "${escapeHtml(fileData.name)}" сохранен в папку "Загрузки"</span>
+                <div class="success-message">
+                  <strong>✓ Файл успешно скачан!</strong>
+                  <span>Файл "${escapeHtml(fileData.name)}" сохранен в папку "Загрузки"</span>
                 </div>
               `;
               

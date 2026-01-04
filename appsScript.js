@@ -26,8 +26,8 @@ function onInstall() {
 function showDownloadDialog() {
   try {
     const html = HtmlService.createHtmlOutputFromFile("dialog.html")
-      .setWidth(400)
-      .setHeight(200)
+      .setWidth(450)
+      .setHeight(350)
       .setSandboxMode(HtmlService.SandboxMode.IFRAME);
     SpreadsheetApp.getUi().showModalDialog(html, "Скачать Excel");
   } catch (error) {
