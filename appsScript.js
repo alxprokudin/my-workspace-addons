@@ -39,6 +39,7 @@ function showDownloadDialog() {
 
 /**
  * Exports the active sheet to Excel format and returns it as base64 for download.
+ * Uses direct export URL with OAuth token (no Drive scope needed).
  * @return {Object} Object containing file data as base64, file name, and MIME type.
  * @throws {Error} If export fails.
  */
@@ -59,37 +60,27 @@ function getExcelBlobAsBase64() {
     const nameActiveSheet = activeSheet.getSheetName();
     const idSpreadsheet = spreadsheet.getId();
 
-    // Export sheet to Excel format
-    // Создаем временную копию таблицы с одним листом для экспорта
-    // Это позволяет экспортировать отдельный лист без drive scope
-    let tempSpreadsheet;
-    let blob;
+    // Export single sheet using direct export URL
+    // This works with spreadsheets.currentonly scope
+    const exportUrl = `https://docs.google.com/spreadsheets/d/${idSpreadsheet}/export?format=xlsx&gid=${idActiveSheet}`;
     
-    try {
-      // Создаем временную копию таблицы
-      tempSpreadsheet = spreadsheet.copy(`${nameActiveSheet}_temp_export_${Date.now()}`);
-      
-      // Удаляем все листы кроме нужного
-      const tempSheets = tempSpreadsheet.getSheets();
-      tempSheets.forEach(sheet => {
-        if (sheet.getSheetId() !== idActiveSheet) {
-          tempSpreadsheet.deleteSheet(sheet);
-        }
-      });
-      
-      // Экспортируем временную таблицу через SpreadsheetApp.getBlob()
-      // Это работает с spreadsheets.currentonly scope
-      blob = tempSpreadsheet.getBlob().setName(`${nameActiveSheet}.xlsx`);
-      
-      // Примечание: Временная таблица остается в Drive пользователя
-      // Это не критично, так как она создается с уникальным именем
-      // Пользователь может удалить ее вручную, если нужно
-      
-    } catch (error) {
-      throw new Error(`Не удалось создать временную копию для экспорта: ${error.toString()}`);
+    const response = UrlFetchApp.fetch(exportUrl, {
+      headers: {
+        Authorization: "Bearer " + ScriptApp.getOAuthToken()
+      },
+      muteHttpExceptions: true
+    });
+
+    const responseCode = response.getResponseCode();
+    if (responseCode !== 200) {
+      const errorText = response.getContentText();
+      throw new Error(`Ошибка экспорта: код ответа ${responseCode}. ${errorText}`);
     }
 
-    // Конвертируем blob в base64 для передачи в HTML
+    // Get blob from response
+    const blob = response.getBlob().setName(`${nameActiveSheet}.xlsx`);
+
+    // Convert blob to base64 for transfer to HTML
     const base64 = Utilities.base64Encode(blob.getBytes());
     
     return {
