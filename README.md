@@ -29,21 +29,13 @@
 
 ## ⚙️ Настройка
 
-### 1. Получите ключи из Google Cloud Console
+### 1. Настройка
 
-1. Создайте проект в [Google Cloud Console](https://console.cloud.google.com)
-2. Включите API: Sheets, Drive, Picker
-3. Создайте OAuth 2.0 Client ID
-4. Скопируйте **Client ID** (DEVELOPER_KEY) и **Project Number** (CLOUD_PROJECT_NUMBER)
+1. Скопируйте код из репозитория в Google Apps Script
+2. Обновите `dialog.html` (если нужно)
+3. Сохраните проект
 
-### 2. Обновите dialog.html
-
-Откройте `dialog.html` в Google Apps Script и замените:
-
-```javascript
-const DEVELOPER_KEY = "ВАШ_CLIENT_ID";
-const CLOUD_PROJECT_NUMBER = "ВАШ_PROJECT_NUMBER";
-```
+**Примечание:** Новая версия не требует Google Drive API и Google Picker API. Файл скачивается напрямую на компьютер пользователя.
 
 ## 🔒 Безопасность
 
@@ -71,9 +63,8 @@ const CLOUD_PROJECT_NUMBER = "ВАШ_PROJECT_NUMBER";
 
 - `onOpen()` - Создает меню дополнения
 - `onInstall()` - Вызывается при установке
-- `showPicker()` - Показывает диалог выбора папки
-- `getExcelFromAnySheet()` - Экспортирует лист в Excel
-- `getOAuthToken()` - Получает OAuth токен
+- `showDownloadDialog()` - Показывает диалог скачивания
+- `getExcelBlobAsBase64()` - Экспортирует лист в Excel и возвращает base64
 
 ## 📝 Лицензия
 
