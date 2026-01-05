@@ -1,0 +1,22 @@
+Нужно обновить privacy-policy.html вручную:
+
+В разделе "8. Разрешения (OAuth Scopes)" заменить:
+
+УДАЛИТЬ:
+<li>
+    <strong><code>https://www.googleapis.com/auth/drive.file</code></strong>
+    <ul id="section8_2List">
+        <li data-i18n-list="section8_2List" data-i18n-index="0">Доступ к файлам, созданным приложением</li>
+        <li data-i18n-list="section8_2List" data-i18n-index="1">Используется для сохранения экспортированного файла</li>
+    </ul>
+</li>
+
+ДОБАВИТЬ:
+<li>
+    <strong><code>https://www.googleapis.com/auth/script.container.ui</code></strong>
+    <ul id="section8_2List">
+        <li data-i18n-list="section8_2List" data-i18n-index="0">Доступ к интерфейсу пользователя</li>
+        <li data-i18n-list="section8_2List" data-i18n-index="1">Используется для показа диалоговых окон</li>
+    </ul>
+</li>
+
