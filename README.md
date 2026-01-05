@@ -1,13 +1,14 @@
 # Экспорт в Excel - Google Workspace Add-on
 
-Дополнение для Google Sheets, которое позволяет экспортировать активный лист в формат Excel (.xlsx) и сохранять в выбранную папку Google Drive.
+Дополнение для Google Sheets, которое позволяет экспортировать активный лист в формат Excel (.xlsx) и скачивать на компьютер одним кликом.
 
 ## 📋 Описание
 
 Это дополнение добавляет в Google Sheets меню "Экспорт в Excel", через которое можно:
 - Экспортировать активный лист в формат Microsoft Excel (.xlsx)
-- Выбрать папку назначения через удобный интерфейс Google Picker
-- Автоматически сохранить файл с именем, соответствующим названию листа
+- Скачать файл на компьютер одним кликом
+- Файл сохраняется в папку "Загрузки" вашего браузера
+- Автоматическое именование файла по названию листа
 
 ## 🚀 Установка
 
@@ -20,16 +21,16 @@
 
 ```
 ├── appsScript.js           # Основной код дополнения
-├── dialog.html            # HTML интерфейс выбора папки
+├── dialog.html            # HTML интерфейс скачивания
 ├── appsscript.json        # Манифест дополнения
-├── PUBLICATION_GUIDE.md   # Руководство по публикации
-├── QUICK_CHECKLIST.md     # Быстрый чеклист
-└── SECURITY_NOTICE.md     # Инструкции по безопасности
+├── docs/                  # Сайт проекта (GitHub Pages)
+│   ├── index.html         # Главная страница
+│   ├── privacy-policy.html
+│   └── guides/            # Документация и инструкции
+└── .github/workflows/     # GitHub Actions для автоматического деплоя
 ```
 
 ## ⚙️ Настройка
-
-### 1. Настройка
 
 1. Скопируйте код из репозитория в Google Apps Script
 2. Обновите `dialog.html` (если нужно)
@@ -43,13 +44,15 @@
 
 - В репозитории используйте плейсхолдеры
 - Реальные ключи храните только в Google Apps Script
-- См. `SECURITY_NOTICE.md` для подробностей
 
 ## 📖 Документация
 
+Вся документация находится в папке `docs/guides/`:
+
 - **PUBLICATION_GUIDE.md** - Подробное руководство по публикации в Google Workspace Marketplace
-- **QUICK_CHECKLIST.md** - Быстрый чеклист для публикации
-- **SECURITY_NOTICE.md** - Инструкции по безопасности ключей
+- **DEPLOY_TO_APPS_SCRIPT.md** - Инструкция по развертыванию в Apps Script
+- **HOW_OAUTH_WORKS_FOR_USERS.md** - Как работает OAuth для пользователей
+- И другие инструкции...
 
 ## 🛠️ Разработка
 
@@ -57,7 +60,7 @@
 
 - Google Apps Script (V8 runtime)
 - Google Cloud Console проект
-- OAuth 2.0 Client ID
+- OAuth 2.0 Client ID (опционально, для Google Picker)
 
 ### Функции
 
@@ -72,10 +75,12 @@
 
 ## 🔗 Ссылки
 
+- [Сайт проекта](https://www.alxprokudin.com/)
 - [Google Apps Script Documentation](https://developers.google.com/apps-script)
 - [Google Workspace Marketplace](https://workspace.google.com/marketplace)
 - [OAuth 2.0 для Google APIs](https://developers.google.com/identity/protocols/oauth2)
 
 ---
 
-**Примечание**: Сайт проекта находится в ветке `main` этого репозитория.
+**Примечание**: Сайт проекта находится в папке `docs/` этого репозитория. Документация - в `docs/guides/`.
+
