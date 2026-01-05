@@ -1,0 +1,16 @@
+# Ignore files that shouldn't be pushed to Apps Script
+**/.git/**
+**/node_modules/**
+**/.github/**
+**/docs/**
+*.md
+*.example
+.gitignore
+.claspignore
+.clasp.json.example
+
+# Keep only essential files
+!appsScript.js
+!dialog.html
+!appsscript.json
+

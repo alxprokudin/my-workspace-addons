@@ -1,57 +1,90 @@
-# My Workspace Add-ons - Website
+# Экспорт в Excel - Google Workspace Add-on
 
-Статический сайт для размещения информации о проектах и политики конфиденциальности на GitHub Pages.
+Дополнение для Google Sheets, которое позволяет экспортировать активный лист в формат Excel (.xlsx) и сохранять в выбранную папку Google Drive.
 
-## 🌐 Сайт
+## 📋 Описание
 
-Сайт доступен по адресу: [https://alxprokudin.github.io/my-workspace-addons/](https://alxprokudin.github.io/my-workspace-addons/)
+Это дополнение добавляет в Google Sheets меню "Экспорт в Excel", через которое можно:
+- Экспортировать активный лист в формат Microsoft Excel (.xlsx)
+- Выбрать папку назначения через удобный интерфейс Google Picker
+- Автоматически сохранить файл с именем, соответствующим названию листа
 
-## 📁 Структура
+## 🚀 Установка
+
+1. Откройте Google Таблицу
+2. Перейдите в **Расширения** → **Apps Script**
+3. Создайте новый проект и скопируйте код из этого репозитория
+4. Сохраните и авторизуйте проект
+
+## 📁 Структура проекта
 
 ```
-docs/
-├── index.html              # Главная страница
-├── privacy-policy.html     # Политика конфиденциальности
-├── styles.css              # Стили сайта
-├── README.md               # Документация сайта
-└── DEPLOYMENT.md           # Инструкции по развертыванию
+├── appsScript.js           # Основной код дополнения
+├── dialog.html            # HTML интерфейс выбора папки
+├── appsscript.json        # Манифест дополнения
+├── PUBLICATION_GUIDE.md   # Руководство по публикации
+├── QUICK_CHECKLIST.md     # Быстрый чеклист
+└── SECURITY_NOTICE.md     # Инструкции по безопасности
 ```
 
-## 🚀 Быстрый старт
+## ⚙️ Настройка
 
-1. Файлы сайта находятся в папке `docs/`
-2. GitHub Pages автоматически развертывает сайт из этой папки
-3. Настройки: Settings → Pages → Source: `/docs`
+### 1. Получите ключи из Google Cloud Console
 
-## 📝 Обновление контента
+1. Создайте проект в [Google Cloud Console](https://console.cloud.google.com)
+2. Включите API: Sheets, Drive, Picker
+3. Создайте OAuth 2.0 Client ID
+4. Скопируйте **Client ID** (DEVELOPER_KEY) и **Project Number** (CLOUD_PROJECT_NUMBER)
 
-После изменения файлов в `docs/`:
+### 2. Обновите dialog.html
 
-```bash
-git add docs/
-git commit -m "Update website content"
-git push
+Откройте `dialog.html` в Google Apps Script и замените:
+
+```javascript
+const DEVELOPER_KEY = "ВАШ_CLIENT_ID";
+const CLOUD_PROJECT_NUMBER = "ВАШ_PROJECT_NUMBER";
 ```
 
-## 🔗 Использование
+## 🔒 Безопасность
 
-- Главная страница: https://alxprokudin.github.io/my-workspace-addons/
-- Политика конфиденциальности: https://alxprokudin.github.io/my-workspace-addons/privacy-policy.html
+⚠️ **ВАЖНО**: НЕ коммитьте файлы с реальными ключами в публичный репозиторий!
 
-## 📚 Документация
+- В репозитории используйте плейсхолдеры
+- Реальные ключи храните только в Google Apps Script
+- См. `SECURITY_NOTICE.md` для подробностей
 
-Подробная документация находится в `docs/README.md` и `docs/DEPLOYMENT.md`.
+## 📖 Документация
 
-## 🌿 Структура репозитория
+- **PUBLICATION_GUIDE.md** - Подробное руководство по публикации в Google Workspace Marketplace
+- **QUICK_CHECKLIST.md** - Быстрый чеклист для публикации
+- **SECURITY_NOTICE.md** - Инструкции по безопасности ключей
 
-Этот репозиторий содержит несколько проектов в разных ветках:
+## 🛠️ Разработка
 
-- **`main`** (текущая ветка) - Сайт проекта
-- **`excel-export-addon`** - Дополнение "Экспорт в Excel"
+### Требования
 
-Подробнее о структуре веток см. [BRANCHES.md](BRANCHES.md)
+- Google Apps Script (V8 runtime)
+- Google Cloud Console проект
+- OAuth 2.0 Client ID
+
+### Функции
+
+- `onOpen()` - Создает меню дополнения
+- `onInstall()` - Вызывается при установке
+- `showPicker()` - Показывает диалог выбора папки
+- `getExcelFromAnySheet()` - Экспортирует лист в Excel
+- `getOAuthToken()` - Получает OAuth токен
+
+## 📝 Лицензия
+
+Этот проект можно свободно использовать и модифицировать.
+
+## 🔗 Ссылки
+
+- [Google Apps Script Documentation](https://developers.google.com/apps-script)
+- [Google Workspace Marketplace](https://workspace.google.com/marketplace)
+- [OAuth 2.0 для Google APIs](https://developers.google.com/identity/protocols/oauth2)
 
 ---
 
-**Примечание**: Код дополнений находится в других ветках репозитория. Переключитесь на нужную ветку для работы с кодом дополнения.
-
+**Примечание**: Сайт проекта находится в ветке `main` этого репозитория.

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css"/>
+    <style>
+      body {
+        font-family: 'Roboto', Arial, sans-serif;
+        padding: 1.5em;
+        text-align: center;
+        margin: 0;
+        overflow-y: auto;
+        box-sizing: border-box;
+      }
+      #result {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        margin-top: 1em;
+        min-height: 0;
+      }
+      .success-message {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        padding: 1em;
+        border-radius: 4px;
+        text-align: center;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+      .success-message strong {
+        display: block;
+        margin-bottom: 0.5em;
+        font-size: 16px;
+      }
+      .success-message span {
+        display: block;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+      }
+      .error-message {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        padding: 1em;
+        border-radius: 4px;
+        text-align: left;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+      .loading {
+        text-align: center;
+        padding: 2em;
+        color: #666;
+      }
+      .download-button {
+        margin-top: 1em !important;
+        padding: 0.875em 2em !important;
+        background-color: #1976d2 !important;
+        background: #1976d2 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        min-width: 200px !important;
+        width: auto !important;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        text-decoration: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        box-sizing: border-box !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      .download-button:hover {
+        background-color: #1565c0 !important;
+        background: #1565c0 !important;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3) !important;
+      }
+      .download-button:active {
+        background-color: #0d47a1 !important;
+        background: #0d47a1 !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+      }
+      .download-button:focus {
+        outline: 2px solid #1976d2 !important;
+        outline-offset: 2px !important;
+      }
+      .download-button:disabled {
+        background-color: #ccc !important;
+        background: #ccc !important;
+        cursor: not-allowed !important;
+        box-shadow: none !important;
+        color: #666 !important;
+      }
+      .info-text {
+        color: #666;
+        font-size: 14px;
+        margin-top: 1em;
+      }
+    </style>
+    <script>
+      /**
+       * Downloads the Excel file to the user's computer.
+       */
+      function downloadExcel() {
+        const button = document.getElementById('downloadButton');
+        const result = document.getElementById('result');
+        
+        // Disable button and show loading
+        button.disabled = true;
+        button.textContent = 'Подготовка файла...';
+        result.innerHTML = '<div class="loading">Экспорт листа в Excel...</div>';
+
+        // Get Excel file data from server
+        google.script.run
+          .withSuccessHandler((fileData) => {
+            if (fileData && fileData.success) {
+              // Decode base64 to binary
+              const byteCharacters = atob(fileData.data);
+              const byteNumbers = new Array(byteCharacters.length);
+              for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+              }
+              const byteArray = new Uint8Array(byteNumbers);
+              
+              // Create Blob
+              const blob = new Blob([byteArray], { type: fileData.mimeType });
+              
+              // Create download link
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = fileData.name;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              
+              // Clean up
+              URL.revokeObjectURL(url);
+              
+              // Show success message
+              result.innerHTML = `
+                <div class="success-message">
+                  <strong>✓ Файл успешно скачан!</strong>
+                  <span>Файл "${escapeHtml(fileData.name)}" сохранен в папку "Загрузки"</span>
+                </div>
+              `;
+              
+              // Re-enable button
+              button.disabled = false;
+              button.textContent = 'Скачать Excel';
+              
+              // Close dialog after 3 seconds
+              setTimeout(() => {
+                google.script.host.close();
+              }, 3000);
+            } else {
+              showError(fileData && fileData.message ? fileData.message : 'Ошибка при экспорте файла');
+              button.disabled = false;
+              button.textContent = 'Скачать Excel';
+            }
+          })
+          .withFailureHandler((error) => {
+            showError('Ошибка экспорта: ' + (error.message || error));
+            button.disabled = false;
+            button.textContent = 'Скачать Excel';
+          })
+          .getExcelBlobAsBase64();
+      }
+
+      /**
+       * Displays an error message to the user.
+       * @param {string} message - Error message to display.
+       */
+      function showError(message) {
+        const resultElement = document.getElementById("result");
+        resultElement.innerHTML = `
+          <div class="error-message">
+            <strong>Ошибка:</strong> ${escapeHtml(message)}
+          </div>
+        `;
+      }
+
+      /**
+       * Escapes HTML to prevent XSS attacks.
+       * @param {string} text - Text to escape.
+       * @return {string} Escaped text.
+       */
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+    </script>
+  </head>
+
+  <body>
+    <div>
+      <h3 style="margin-top: 0;">Скачать активный лист в Excel</h3>
+      <p class="info-text">Файл будет скачан в папку "Загрузки" вашего браузера</p>
+      <button id="downloadButton" class="download-button" onclick="downloadExcel()" style="display: flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; margin-left: auto !important; margin-right: auto !important;">
+        Скачать Excel
+      </button>
+      <div id="result"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+name: Deploy to Google Apps Script (Alternative)
+
+on:
+  workflow_dispatch: # Manual trigger only
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install clasp
+        run: npm install -g @google/clasp
+
+      - name: Setup .clasp.json
+        run: |
+          echo '{"scriptId":"${{ secrets.CLASP_SCRIPT_ID }}","rootDir":"."}' > .clasp.json
+
+      - name: Authenticate with Google (Alternative method)
+        run: |
+          # Try multiple locations for clasp credentials
+          mkdir -p $HOME/.config
+          mkdir -p $HOME
+          
+          # Write to both possible locations
+          echo "${{ secrets.CLASP_TOKEN }}" > $HOME/.config/.clasprc.json
+          echo "${{ secrets.CLASP_TOKEN }}" > $HOME/.clasprc.json
+          
+          # Set permissions
+          chmod 600 $HOME/.config/.clasprc.json
+          chmod 600 $HOME/.clasprc.json
+          
+          # Verify
+          echo "Checking credentials files:"
+          ls -la $HOME/.config/.clasprc.json || echo "Not in .config"
+          ls -la $HOME/.clasprc.json || echo "Not in home"
+
+      - name: Deploy to Apps Script
+        run: |
+          # Try with explicit path
+          XDG_CONFIG_HOME=$HOME/.config clasp push --force || \
+          HOME=$HOME clasp push --force || \
+          clasp push --force
+
+      - name: Deployment status
+        run: |
+          echo "✅ Code deployed to Google Apps Script successfully!"
+

@@ -1,0 +1,47 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="#f5f5f5"/>
+  <circle cx="64" cy="64" r="56" fill="white"/>
+  
+  <!-- Source document (left) -->
+  <g transform="translate(12, 32)">
+    <rect x="0" y="0" width="40" height="56" rx="3" fill="#0f9d58" stroke="#0a8043" stroke-width="2"/>
+    <rect x="4" y="8" width="32" height="3" rx="1" fill="white" opacity="0.9"/>
+    <rect x="4" y="14" width="24" height="2" rx="1" fill="white" opacity="0.7"/>
+    <rect x="4" y="18" width="28" height="2" rx="1" fill="white" opacity="0.7"/>
+    <!-- Grid -->
+    <g opacity="0.3">
+      <line x1="4" y1="26" x2="36" y2="26" stroke="white" stroke-width="0.5"/>
+      <line x1="4" y1="32" x2="36" y2="32" stroke="white" stroke-width="0.5"/>
+      <line x1="4" y1="38" x2="36" y2="38" stroke="white" stroke-width="0.5"/>
+      <line x1="12" y1="26" x2="12" y2="44" stroke="white" stroke-width="0.5"/>
+      <line x1="20" y1="26" x2="20" y2="44" stroke="white" stroke-width="0.5"/>
+    </g>
+  </g>
+  
+  <!-- Flow arrows -->
+  <g transform="translate(56, 48)">
+    <path d="M 0 8 L 8 8 L 8 4 L 12 8 L 8 12 L 8 8 Z" fill="#1976d2" opacity="0.8"/>
+    <circle cx="4" cy="8" r="2" fill="#1976d2"/>
+    <circle cx="12" cy="8" r="2" fill="#1976d2"/>
+  </g>
+  
+  <!-- Target document (right) -->
+  <g transform="translate(76, 32)">
+    <rect x="0" y="0" width="40" height="56" rx="3" fill="#217346" stroke="#1a5d38" stroke-width="2"/>
+    <!-- Excel X -->
+    <g transform="translate(12, 16)">
+      <path d="M 8 4 L 10 6 L 12 4 L 13 5 L 11 7 L 13 9 L 12 10 L 10 8 L 8 10 L 7 9 L 9 7 L 7 5 Z" fill="white"/>
+    </g>
+    <!-- Grid -->
+    <g opacity="0.3">
+      <line x1="4" y1="26" x2="36" y2="26" stroke="white" stroke-width="0.5"/>
+      <line x1="4" y1="32" x2="36" y2="32" stroke="white" stroke-width="0.5"/>
+      <line x1="4" y1="38" x2="36" y2="38" stroke="white" stroke-width="0.5"/>
+      <line x1="12" y1="26" x2="12" y2="44" stroke="white" stroke-width="0.5"/>
+      <line x1="20" y1="26" x2="20" y2="44" stroke="white" stroke-width="0.5"/>
+      <line x1="28" y1="26" x2="28" y2="44" stroke="white" stroke-width="0.5"/>
+    </g>
+  </g>
+</svg>
+

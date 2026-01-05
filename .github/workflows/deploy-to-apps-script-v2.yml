@@ -1,0 +1,52 @@
+name: Deploy to Google Apps Script (v2)
+
+on:
+  workflow_dispatch: # Manual trigger only for testing
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install clasp
+        run: npm install -g @google/clasp
+
+      - name: Setup .clasp.json
+        run: |
+          echo '{"scriptId":"${{ secrets.CLASP_SCRIPT_ID }}","rootDir":"."}' > .clasp.json
+
+      - name: Authenticate with Google
+        run: |
+          # Create config directory
+          mkdir -p $HOME/.config
+          # Write credentials file
+          echo "${{ secrets.CLASP_TOKEN }}" > $HOME/.config/.clasprc.json
+          chmod 600 $HOME/.config/.clasprc.json
+          # Verify
+          echo "=== Credentials file check ==="
+          ls -la $HOME/.config/.clasprc.json
+          echo "File exists: $([ -f $HOME/.config/.clasprc.json ] && echo 'YES' || echo 'NO')"
+          echo "File size: $(wc -c < $HOME/.config/.clasprc.json) bytes"
+          echo "First line: $(head -n 1 $HOME/.config/.clasprc.json | head -c 50)"
+
+      - name: Deploy to Apps Script
+        run: |
+          # Set XDG_CONFIG_HOME to point to the directory containing .clasprc.json
+          export XDG_CONFIG_HOME=$HOME/.config
+          # Use --auth with directory (not file)
+          clasp push --force --auth $HOME/.config
+        env:
+          HOME: ${{ env.HOME }}
+
+      - name: Deployment status
+        run: |
+          echo "✅ Code deployed to Google Apps Script successfully!"
+
