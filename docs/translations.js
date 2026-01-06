@@ -14,7 +14,7 @@ const translations = {
         // Projects section
         projectsTitle: "Мои проекты",
         excelExportTitle: "Экспорт в Excel",
-        excelExportDescription: "Экспортируйте активный лист Google Таблицы в формат Excel (.xlsx) и сохраняйте в выбранную папку Google Drive одним кликом.",
+        excelExportDescription: "Экспортируйте активный лист Google Таблицы в формат Excel (.xlsx) и скачивайте на компьютер одним кликом. Файл сохраняется в папку \"Загрузки\" вашего браузера.",
         newProjectTitle: "Новый проект",
         newProjectDescription: "Скоро здесь появится новый проект...",
         installFromMarketplace: "Установить из Marketplace",
@@ -50,8 +50,7 @@ const translations = {
         section2_2Text: "Для работы дополнения нам требуется доступ к следующим данным (которые обрабатываются локально в вашем браузере и Google Apps Script):",
         section2_2List: [
             "Активный лист таблицы: Только для экспорта в формат Excel",
-            "Папки Google Drive: Только для сохранения экспортированного файла в выбранную вами папку",
-            "OAuth токен: Для авторизации доступа к Google Drive API"
+            "OAuth токен: Для авторизации доступа к Google Sheets API"
         ],
         section2_2Important: "Важно: Все операции выполняются в вашем аккаунте Google, мы не имеем доступа к вашим данным.",
         
@@ -59,8 +58,7 @@ const translations = {
         section3Text: "Мы используем доступ к данным исключительно для:",
         section3List: [
             "Экспорта активного листа в формат Excel (.xlsx)",
-            "Сохранения экспортированного файла в выбранную вами папку Google Drive",
-            "Обеспечения работы интерфейса выбора папки"
+            "Скачивания экспортированного файла на компьютер пользователя"
         ],
         section3NotUsed: "Мы НЕ используем ваши данные для:",
         section3NotUsedList: [
@@ -74,7 +72,7 @@ const translations = {
         section4List: [
             "Мы НЕ храним ваши данные на наших серверах",
             "Все операции выполняются через Google Apps Script в вашем аккаунте Google",
-            "Экспортированные файлы сохраняются в вашем Google Drive, к которому у нас нет постоянного доступа"
+            "Экспортированные файлы скачиваются на компьютер пользователя в папку \"Загрузки\" браузера"
         ],
         
         section5Title: "5. Передача данных третьим лицам",
@@ -110,10 +108,10 @@ const translations = {
             "Доступ только к текущей открытой таблице",
             "Используется для экспорта активного листа"
         ],
-        section8_2Title: "2. https://www.googleapis.com/auth/drive.file",
+        section8_2Title: "2. https://www.googleapis.com/auth/script.container.ui",
         section8_2List: [
-            "Доступ к файлам, созданным приложением",
-            "Используется для сохранения экспортированного файла"
+            "Доступ к интерфейсу пользователя",
+            "Используется для показа диалоговых окон"
         ],
         section8_3Title: "3. https://www.googleapis.com/auth/script.external_request",
         section8_3List: [
@@ -225,7 +223,7 @@ const translations = {
         // Projects section
         projectsTitle: "My Projects",
         excelExportTitle: "Export to Excel",
-        excelExportDescription: "Export an active Google Sheet to Excel (.xlsx) format and save it to a selected Google Drive folder with one click.",
+        excelExportDescription: "Export an active Google Sheet to Excel (.xlsx) format and download it to your computer with one click. The file is saved to your browser's \"Downloads\" folder.",
         newProjectTitle: "New Project",
         newProjectDescription: "A new project will appear here soon...",
         installFromMarketplace: "Install from Marketplace",
@@ -261,8 +259,7 @@ const translations = {
         section2_2Text: "For the add-on to function, we require access to the following data (which is processed locally in your browser and Google Apps Script):",
         section2_2List: [
             "Active sheet: Only for exporting to Excel format",
-            "Google Drive folders: Only for saving the exported file to a folder you select",
-            "OAuth token: For authorizing access to Google Drive API"
+            "OAuth token: For authorizing access to Google Sheets API"
         ],
         section2_2Important: "Important: All operations are performed in your Google account, we do not have access to your data.",
         
@@ -270,8 +267,7 @@ const translations = {
         section3Text: "We use data access exclusively for:",
         section3List: [
             "Exporting the active sheet to Excel (.xlsx) format",
-            "Saving the exported file to a Google Drive folder you select",
-            "Providing the folder selection interface"
+            "Downloading the exported file to the user's computer"
         ],
         section3NotUsed: "We do NOT use your data for:",
         section3NotUsedList: [
@@ -285,7 +281,7 @@ const translations = {
         section4List: [
             "We do NOT store your data on our servers",
             "All operations are performed through Google Apps Script in your Google account",
-            "Exported files are saved to your Google Drive, to which we do not have permanent access"
+            "Exported files are downloaded to the user's computer in the browser's \"Downloads\" folder"
         ],
         
         section5Title: "5. Sharing Data with Third Parties",
@@ -321,10 +317,10 @@ const translations = {
             "Access only to the currently open spreadsheet",
             "Used for exporting the active sheet"
         ],
-        section8_2Title: "2. https://www.googleapis.com/auth/drive.file",
+        section8_2Title: "2. https://www.googleapis.com/auth/script.container.ui",
         section8_2List: [
-            "Access to files created by the application",
-            "Used for saving the exported file"
+            "Access to user interface",
+            "Used for showing dialog windows"
         ],
         section8_3Title: "3. https://www.googleapis.com/auth/script.external_request",
         section8_3List: [
