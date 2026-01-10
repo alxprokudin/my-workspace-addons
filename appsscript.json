@@ -10,6 +10,9 @@
     "https://www.googleapis.com/auth/script.container.ui",
     "https://www.googleapis.com/auth/script.external_request"
   ],
+  "urlFetchWhitelist": [
+    "https://docs.google.com/spreadsheets/*"
+  ],
   "sheets": {
     "homepageTrigger": {
       "runFunction": "onOpen"

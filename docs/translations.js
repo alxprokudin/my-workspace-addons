@@ -76,11 +76,9 @@ const translations = {
         ],
         
         section5Title: "5. Передача данных третьим лицам",
-        section5Text: "Мы НЕ передаем ваши данные третьим лицам. Дополнение использует только официальные API Google:",
+        section5Text: "Мы НЕ передаем ваши данные третьим лицам. Дополнение использует только сервисы Google:",
         section5List: [
-            "Google Sheets API",
-            "Google Drive API",
-            "Google Picker API"
+            "Google Sheets"
         ],
         section5Text2: "Все взаимодействие происходит напрямую между вашим браузером и сервисами Google.",
         
@@ -116,7 +114,7 @@ const translations = {
         section8_3Title: "3. https://www.googleapis.com/auth/script.external_request",
         section8_3List: [
             "Выполнение внешних HTTP-запросов",
-            "Используется для экспорта через Google Sheets API"
+            "Используется для запроса экспорта Excel через endpoint Google Sheets (docs.google.com)"
         ],
         
         section9Title: "9. Изменения в политике конфиденциальности",
@@ -160,21 +158,21 @@ const translations = {
         // Terms of Service Page
         navTerms: "Условия использования",
         termsTitle: "Условия использования дополнения \"Экспорт в Excel\"",
-        termsLastUpdated: "1 января 2024",
+        termsLastUpdated: "10 января 2026",
         
         // Terms of Service Sections
         termsSection1Title: "1. Принятие условий",
         termsSection1Text: "Используя дополнение \"Экспорт в Excel\" для Google Sheets (\"Дополнение\"), вы соглашаетесь с настоящими Условиями использования. Если вы не согласны с этими условиями, пожалуйста, не используйте Дополнение.",
         
         termsSection2Title: "2. Описание сервиса",
-        termsSection2Text: "Дополнение \"Экспорт в Excel\" позволяет пользователям экспортировать активный лист Google Таблицы в формат Microsoft Excel (.xlsx) и сохранять его в выбранную папку Google Drive.",
+        termsSection2Text: "Дополнение \"Экспорт в Excel\" позволяет пользователям экспортировать активный лист Google Таблицы в формат Microsoft Excel (.xlsx) и скачивать его на компьютер пользователя (обычно в папку «Загрузки» браузера).",
         
         termsSection3Title: "3. Использование дополнения",
         termsSection3_1Title: "3.1 Разрешенное использование",
         termsSection3_1Text: "Вы можете использовать Дополнение для:",
         termsSection3_1List: [
             "Экспорта листов Google Таблиц в формат Excel",
-            "Сохранения экспортированных файлов в ваши папки Google Drive",
+            "Скачивания экспортированных файлов на компьютер",
             "Любых законных деловых или личных целей"
         ],
         termsSection3_2Title: "3.2 Запрещенное использование",
@@ -207,7 +205,7 @@ const translations = {
         termsSection9Website: "Веб-сайт:",
         
         termsSection10Title: "10. Применимое право",
-        termsSection10Text: "Настоящие Условия использования регулируются и толкуются в соответствии с законами [Ваша страна/юрисдикция]. Любые споры, возникающие из или связанные с настоящими Условиями, подлежат исключительной юрисдикции судов [Ваша страна/юрисдикция]."
+        termsSection10Text: "Настоящие Условия использования регулируются и толкуются в соответствии с законами Российской Федерации. Любые споры, возникающие из или связанные с настоящими Условиями, подлежат рассмотрению судами Российской Федерации."
     },
     en: {
         // Header
@@ -285,11 +283,9 @@ const translations = {
         ],
         
         section5Title: "5. Sharing Data with Third Parties",
-        section5Text: "We do NOT share your data with third parties. The add-on uses only official Google APIs:",
+        section5Text: "We do NOT share your data with third parties. The add-on uses only Google services:",
         section5List: [
-            "Google Sheets API",
-            "Google Drive API",
-            "Google Picker API"
+            "Google Sheets"
         ],
         section5Text2: "All interaction occurs directly between your browser and Google services.",
         
@@ -325,7 +321,7 @@ const translations = {
         section8_3Title: "3. https://www.googleapis.com/auth/script.external_request",
         section8_3List: [
             "Execution of external HTTP requests",
-            "Used for exporting through Google Sheets API"
+            "Used to fetch the Excel export via Google Sheets export endpoint (docs.google.com)"
         ],
         
         section9Title: "9. Changes to Privacy Policy",
@@ -369,21 +365,21 @@ const translations = {
         // Terms of Service Page
         navTerms: "Terms of Service",
         termsTitle: "Terms of Service for \"Export to Excel\" Add-on",
-        termsLastUpdated: "January 1, 2024",
+        termsLastUpdated: "January 10, 2026",
         
         // Terms of Service Sections
         termsSection1Title: "1. Acceptance of Terms",
         termsSection1Text: "By using the \"Export to Excel\" add-on for Google Sheets (\"Add-on\"), you agree to these Terms of Service. If you do not agree with these terms, please do not use the Add-on.",
         
         termsSection2Title: "2. Service Description",
-        termsSection2Text: "The \"Export to Excel\" add-on allows users to export an active Google Sheet to Microsoft Excel (.xlsx) format and save it to a selected Google Drive folder.",
+        termsSection2Text: "The \"Export to Excel\" add-on allows users to export an active Google Sheet to Microsoft Excel (.xlsx) format and download it to the user's computer (typically to the browser's \"Downloads\" folder).",
         
         termsSection3Title: "3. Use of the Add-on",
         termsSection3_1Title: "3.1 Permitted Use",
         termsSection3_1Text: "You may use the Add-on for:",
         termsSection3_1List: [
             "Exporting Google Sheets to Excel format",
-            "Saving exported files to your Google Drive folders",
+            "Downloading exported files to your computer",
             "Any lawful business or personal purposes"
         ],
         termsSection3_2Title: "3.2 Prohibited Use",
@@ -416,7 +412,7 @@ const translations = {
         termsSection9Website: "Website:",
         
         termsSection10Title: "10. Applicable Law",
-        termsSection10Text: "These Terms of Service are governed by and construed in accordance with the laws of [Your country/jurisdiction]. Any disputes arising from or related to these Terms are subject to the exclusive jurisdiction of the courts of [Your country/jurisdiction]."
+        termsSection10Text: "These Terms of Service are governed by and construed in accordance with the laws of the Russian Federation. Any disputes arising from or related to these Terms are subject to the jurisdiction of the courts of the Russian Federation."
     }
 };
 
