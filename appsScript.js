@@ -2,7 +2,7 @@
  * Creates the add-on menu when the spreadsheet is opened.
  * This function is automatically called by Google Sheets.
  * 
- * Last updated: 2025-01-05 - Direct download functionality (no Drive scope)
+ * Last updated: 2026-01-10 - Friendly 401/403 handling with access settings hint
  */
 function onOpen() {
   SpreadsheetApp.getUi()
@@ -81,8 +81,24 @@ function getExcelBlobAsBase64() {
 
     const responseCode = response.getResponseCode();
     if (responseCode !== 200) {
+      // Common case: docs.google.com returns an interstitial HTML page when access is restricted.
+      // Don't show raw HTML to the user; provide a clear next step.
+      if (responseCode === 401 || responseCode === 403) {
+        return {
+          success: false,
+          error: `HTTP ${responseCode}`,
+          message:
+            'Не удалось скачать Excel из‑за ограничений доступа к таблице. ' +
+            'Проверьте настройки доступа: в окне «Доступ» → «Общий доступ» установите «Все, у кого есть ссылка». ' +
+            'Роль может быть любой («Читатель», «Комментатор» или «Редактор»). ' +
+            'После изменения обновите страницу таблицы и попробуйте снова.'
+        };
+      }
+
       const errorText = response.getContentText();
-      throw new Error(`Ошибка экспорта: код ответа ${responseCode}. ${errorText}`);
+      const maxLen = 500;
+      const shortErrorText = errorText && errorText.length > maxLen ? errorText.slice(0, maxLen) + '…' : errorText;
+      throw new Error(`Ошибка экспорта: код ответа ${responseCode}. ${shortErrorText}`);
     }
 
     // Get blob from response
