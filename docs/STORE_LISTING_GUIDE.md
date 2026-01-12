@@ -113,6 +113,56 @@ magick docs/icon-export-excel.svg -resize 140x140 -gravity center -extent 220x14
 
 ---
 
+## 📝 Текст для Store Listing (актуально — без Google Drive/Picker)
+
+Ниже — заготовки, которые можно прямо копировать в Google Cloud Console → **Store Listing** → **General information**.
+
+### RU (рекомендуемый вариант)
+
+**Краткое описание (Short description):**
+
+Экспортируйте активный лист Google Таблицы в Excel (.xlsx) и скачивайте файл на компьютер одним кликом.
+
+**Подробное описание (Detailed description / Общие сведения):**
+
+Дополнение «Экспорт в Excel» добавляет в Google Sheets меню, которое позволяет экспортировать активный лист в формат Microsoft Excel (.xlsx) и скачать файл на компьютер (обычно в папку «Загрузки» браузера).
+
+Основные возможности:
+- Экспорт активного листа в Excel (.xlsx)
+- Скачивание файла на компьютер (без сохранения в Google Drive)
+- Автоматическое имя файла по названию листа
+
+Использование:
+1. Откройте Google Таблицу
+2. Выберите нужный лист
+3. Меню: «Экспорт в Excel» → «Скачать Excel»
+4. Файл будет скачан в «Загрузки» вашего браузера
+
+Примечание: если скачивание недоступно из‑за ограничений доступа к документу, попросите владельца обновить настройки общего доступа.
+
+### EN (optional)
+
+**Short description:**
+
+Export the active Google Sheets tab to Excel (.xlsx) and download it to your computer in one click.
+
+**Detailed description:**
+
+“Export to Excel” adds a menu to Google Sheets that exports the active sheet to Microsoft Excel (.xlsx) and downloads the file to the user’s computer (typically to the browser’s “Downloads” folder).
+
+Key features:
+- Export the active sheet to Excel (.xlsx)
+- Direct download to computer (no saving to Google Drive)
+- Automatic file naming based on the sheet name
+
+How to use:
+1. Open a Google Spreadsheet
+2. Select a sheet
+3. Menu: “Export to Excel” → “Download Excel”
+4. The file will be downloaded to your browser’s Downloads folder
+
+---
+
 ## 📝 Краткая сводка для заполнения
 
 ### Graphic Assets:
